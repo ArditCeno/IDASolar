@@ -1,7 +1,7 @@
 import { type FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { ArrowRight, Check, Mail, MapPin, Phone } from "lucide-react";
-import { SiteLayout } from "@/components/SiteLayout";
+import { SiteLayout, PageHero } from "@/components/SiteLayout";
 
 export default function Contatti() {
   const [sent, setSent] = useState(false);
@@ -16,15 +16,13 @@ export default function Contatti() {
 
   return (
     <SiteLayout>
-      <section className="section contatti-section page-section">
-        <div className="container page-head">
-          <h2>Kontaktet</h2>
-          <p className="lead-copy">
-            Na kontakto për një konsultë teknike ose për më shumë informacion
-            mbi zgjidhjet IDA Solar.
-          </p>
-        </div>
-
+      <PageHero
+        title="Kontaktet"
+        intro="Na kontakto për një konsultë teknike ose për më shumë informacion mbi zgjidhjet IDA Solar."
+        image="/images/page-contatti.jpg"
+        fallback="/images/hero.jpg"
+      />
+      <section className="section contatti-section">
         <div className="container contatti-grid">
           <div className="contatti-info">
             <div className="contatti-block">

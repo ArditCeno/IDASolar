@@ -1319,6 +1319,20 @@ export const DICT: Record<string, Translation> = {
     fr: "Demande envoyée",
     de: "Anfrage gesendet",
   },
+  "Moduli Fotovoltaici": {
+    it: "Moduli Fotovoltaici",
+    en: "Photovoltaic modules",
+    es: "Módulos fotovoltaicos",
+    fr: "Modules photovoltaïques",
+    de: "Photovoltaikmodule",
+  },
+  Calcolatore: {
+    it: "Calcolatore",
+    en: "Calculator",
+    es: "Calculadora",
+    fr: "Calculateur",
+    de: "Rechner",
+  },
 };
 
 export function translateText(lang: Lang, text: string): string {

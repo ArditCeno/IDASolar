@@ -1,9 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import {
-  SiteLayout,
-  SectionLabel,
-  useConsultation,
-} from "@/components/SiteLayout";
+import { SiteLayout, PageHero, useConsultation } from "@/components/SiteLayout";
 
 const BATTERY_TYPES = [
   {
@@ -44,18 +40,13 @@ function AccumuloCta() {
 export default function Accumulo() {
   return (
     <SiteLayout>
-      <section className="section accumulo-section page-section">
-        <div className="container page-head">
-          <h2>Bateria</h2>
-          <p className="lead-copy">
-            Sistemet e akumulimit IDA Solar mundësojnë ruajtjen e energjisë së
-            prodhuar për të optimizuar përdorimin e saj, për të reduktuar
-            varësinë nga rrjeti dhe për të garantuar vazhdimësi operacionale. Të
-            integruara në sistem, përmirësojnë efikasitetin e përgjithshëm dhe
-            kontrollin energjetik.
-          </p>
-        </div>
-
+      <PageHero
+        title="Bateria"
+        intro="Sistemet e akumulimit IDA Solar mundësojnë ruajtjen e energjisë së prodhuar për të optimizuar përdorimin e saj, për të reduktuar varësinë nga rrjeti dhe për të garantuar vazhdimësi operacionale. Të integruara në sistem, përmirësojnë efikasitetin e përgjithshëm dhe kontrollin energjetik."
+        image="/images/page-accumulo.jpg"
+        fallback="/images/battery.jpg"
+      />
+      <section className="section accumulo-section">
         <div className="container battery-grid">
           {BATTERY_TYPES.map(type => (
             <article className="battery-card" key={type.name}>

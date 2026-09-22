@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { SiteLayout, useConsultation } from "@/components/SiteLayout";
+import { SiteLayout, PageHero, useConsultation } from "@/components/SiteLayout";
 
 const INVERTER_TYPES = [
   {
@@ -45,16 +45,13 @@ function InverterCta() {
 export default function Inverter() {
   return (
     <SiteLayout>
-      <section className="section accumulo-section page-section">
-        <div className="container page-head">
-          <h2>Inverter</h2>
-          <p className="lead-copy">
-            Inverterët IDA Solar menaxhojnë dhe transformojnë energjinë e
-            prodhuar, duke garantuar kontroll, siguri dhe vazhdimësi
-            operacionale brenda sistemit.
-          </p>
-        </div>
-
+      <PageHero
+        title="Inverter"
+        intro="Inverterët IDA Solar menaxhojnë dhe transformojnë energjinë e prodhuar, duke garantuar kontroll, siguri dhe vazhdimësi operacionale brenda sistemit."
+        image="/images/page-inverter.jpg"
+        fallback="/images/panels.jpg"
+      />
+      <section className="section accumulo-section">
         <div className="container battery-grid">
           {INVERTER_TYPES.map(type => (
             <article className="battery-card" key={type.name}>

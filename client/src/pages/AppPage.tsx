@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
-import { SiteLayout, useConsultation } from "@/components/SiteLayout";
+import { SiteLayout, PageHero, useConsultation } from "@/components/SiteLayout";
 import { AppMockup } from "./Home";
 
 function AppCta() {
@@ -19,7 +19,13 @@ function AppCta() {
 export default function AppPage() {
   return (
     <SiteLayout>
-      <section className="section app-section page-section" id="app">
+      <PageHero
+        title="Aplikacioni"
+        intro="Monitoroji dhe menaxho prodhimin, konsumin dhe baterinë në kohë reale, direkt nga telefoni."
+        image="/images/page-app.jpg"
+        fallback="/images/hero.jpg"
+      />
+      <section className="section app-section" id="app">
         <div className="container app-grid">
           <div className="app-visual reveal-up">
             <AppMockup />

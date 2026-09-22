@@ -309,6 +309,42 @@ function LanguageMenu() {
   );
 }
 
+export function PageHero({
+  title,
+  intro,
+  image,
+  fallback,
+}: {
+  title: string;
+  intro?: string;
+  image: string;
+  fallback?: string;
+}) {
+  return (
+    <header className="page-hero">
+      <img
+        className="page-hero-img"
+        src={image}
+        alt=""
+        onError={event => {
+          const el = event.currentTarget;
+          if (fallback && el.dataset.fb !== "1") {
+            el.dataset.fb = "1";
+            el.src = fallback;
+          } else {
+            el.style.display = "none";
+          }
+        }}
+      />
+      <div className="page-hero-overlay" />
+      <div className="container page-hero-content">
+        <h1 className="page-hero-title pop-in">{title}</h1>
+        {intro ? <p className="page-hero-intro pop-in delay-1">{intro}</p> : null}
+      </div>
+    </header>
+  );
+}
+
 export function SectionLabel({
   children,
   light = false,
