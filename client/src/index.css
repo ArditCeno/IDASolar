@@ -1579,33 +1579,33 @@ h2 {
   border: 0;
 }
 .contatti-form-wrap {
-  padding: 34px;
+  padding: 26px;
   background: #ffffff;
   border: 1px solid #e6e7e2;
 }
 .contatti-form {
   display: grid;
-  gap: 16px;
+  gap: 11px;
 }
 .contatti-form label {
   display: grid;
-  gap: 7px;
+  gap: 5px;
   color: #747873;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .contatti-form input,
 .contatti-form textarea {
-  padding: 12px 13px;
+  padding: 10px 12px;
   border: 1px solid #d7d9d2;
   border-radius: 4px;
   outline: none;
   background: #ffffff;
   color: var(--ink);
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
   resize: vertical;
 }
 .contatti-form input:focus,
@@ -1613,7 +1613,7 @@ h2 {
   border-color: var(--brand);
 }
 .contatti-form .button {
-  margin-top: 6px;
+  margin-top: 4px;
 }
 .contatti-success {
   display: grid;
@@ -3231,13 +3231,13 @@ h2 {
   -webkit-overflow-scrolling: touch;
 }
 .consultation-modal {
-  width: min(100%, 450px);
+  width: min(100%, 440px);
   position: relative;
   margin: auto;
-  max-height: calc(100dvh - 40px);
+  max-height: calc(100dvh - 24px);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 42px;
+  padding: 28px;
   background: var(--warm-white);
   box-shadow: 14px 14px 0 var(--brand);
   animation: modal-in 0.3s var(--ease-out) both;
@@ -3257,48 +3257,48 @@ h2 {
   border-radius: 50%;
 }
 .consultation-modal h2 {
-  margin: 21px 0 14px;
-  font-size: 30px;
+  margin: 14px 0 10px;
+  font-size: 23px;
 }
 .consultation-modal > p {
-  margin: 0 0 27px;
+  margin: 0 0 18px;
   color: #727671;
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.55;
 }
 .consultation-modal form {
   display: grid;
-  gap: 13px;
+  gap: 10px;
 }
 .consultation-modal label {
   display: grid;
-  gap: 7px;
+  gap: 5px;
   color: #747873;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .consultation-modal input {
-  height: 44px;
-  padding: 0 13px;
+  height: 40px;
+  padding: 0 12px;
   border: 1px solid #d7d9d2;
   outline: none;
   background: white;
   color: var(--ink);
-  font-size: 12px;
+  font-size: 13px;
 }
 .consultation-modal input:focus {
   border-color: var(--brand);
 }
 .consultation-modal form .button {
-  margin-top: 7px;
+  margin-top: 4px;
 }
 .consultation-modal > small {
   display: block;
-  margin-top: 17px;
+  margin-top: 12px;
   color: #9a9d98;
-  font-size: 9px;
+  font-size: 8px;
   line-height: 1.5;
 }
 
@@ -3926,21 +3926,27 @@ h2 {
     order: 1;
   }
   .consultation-modal {
-    padding: 32px 22px;
+    padding: 22px 16px;
     box-shadow: 10px 11px 0 var(--brand);
+  }
+  .consultation-modal h2 {
+    font-size: 20px;
   }
   .consultation-modal input,
   .mini-lead-form input {
     font-size: 16px;
   }
   .mini-lead-form input {
-    height: 48px;
+    height: 44px;
   }
   .consultation-modal input {
-    height: 48px;
+    height: 42px;
+  }
+  .contatti-form-wrap {
+    padding: 20px;
   }
   .button {
-    min-height: 48px;
+    min-height: 44px;
   }
 }
 
