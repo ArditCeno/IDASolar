@@ -96,7 +96,7 @@ export default function Contatti() {
                     type="email"
                     name="email"
                     autoComplete="email"
-                    placeholder="arta@email.com"
+                    placeholder="email@gmail.com"
                   />
                 </label>
                 <label>
@@ -107,7 +107,7 @@ export default function Contatti() {
                     name="phone"
                     autoComplete="tel"
                     inputMode="tel"
-                    placeholder="+355 6X XXX XXXX"
+                    placeholder="+39 3XX XXX XXXX"
                   />
                 </label>
                 <label>

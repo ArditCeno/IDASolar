@@ -624,7 +624,13 @@ export const DICT: Record<string, Translation> = {
     en: "Thank you! An IDA SOLAR expert will contact you.",
     it: "Grazie! Un esperto IDA SOLAR ti contatterà.",
   },
-  "p.sh. Arta Hoxha": { en: "e.g. Arta Hoxha", it: "es. Arta Hoxha" },
+  "p.sh. Emer Mbiemer": {
+    it: "es. Nome Cognome",
+    en: "e.g. Name Surname",
+    es: "p. ej. Nombre Apellido",
+    fr: "ex. Nom Prénom",
+    de: "z. B. Vor- und Nachname",
+  },
   "Panele diellore të integruara në çati": {
     en: "Solar panels integrated into the roof",
     it: "Pannelli solari integrati nel tetto",
