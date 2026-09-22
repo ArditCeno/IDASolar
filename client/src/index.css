@@ -753,7 +753,7 @@ h2 {
   width: 100%;
   aspect-ratio: 1200 / 653;
   overflow: hidden;
-  background: #08090c;
+  background: transparent;
 }
 .panel-roof-photo {
   position: absolute;

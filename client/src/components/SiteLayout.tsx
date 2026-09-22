@@ -672,7 +672,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                       required
                       name="name"
                       autoComplete="name"
-                      placeholder="p.sh Emer Mbiemer"
+                      placeholder="Emër Mbiemër"
                     />
                   </label>
                   <label>

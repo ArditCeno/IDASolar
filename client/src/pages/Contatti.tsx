@@ -86,7 +86,7 @@ export default function Contatti() {
                     required
                     name="name"
                     autoComplete="name"
-                    placeholder="p.sh. Arta Hoxha"
+                    placeholder="Emër Mbiemër"
                   />
                 </label>
                 <label>
