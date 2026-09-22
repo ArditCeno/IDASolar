@@ -7,7 +7,7 @@ export default function Calcolatore() {
       <PageHero
         title="Calcolatore"
         intro="Zgjidh kalkulatorin sipas asaj që di: faturën mujore ose konsumin dhe madhësinë e objektit."
-        image="/images/page-calcolatore.jpg"
+        image="/images/page-calcolatore.webp"
         fallback="/images/panels.jpg"
       />
       <section className="section calculator-section" id="calculator">

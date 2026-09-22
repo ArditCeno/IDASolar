@@ -7,7 +7,7 @@ export default function Moduli() {
       <PageHero
         title="Moduli Fotovoltaici"
         intro="Nga zgjidhjet kompakte rezidenciale te modulet për kushte ekstreme — secila linjë IDA është projektuar për një nevojë të qartë."
-        image="/images/page-moduli.jpg"
+        image="/images/page-moduli.webp"
         fallback="/images/panels.jpg"
       />
       <section className="section product-section" id="products">

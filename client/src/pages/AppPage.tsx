@@ -22,7 +22,7 @@ export default function AppPage() {
       <PageHero
         title="Aplikacioni"
         intro="Monitoroji dhe menaxho prodhimin, konsumin dhe baterinë në kohë reale, direkt nga telefoni."
-        image="/images/page-app.jpg"
+        image="/images/page-app.webp"
         fallback="/images/hero.jpg"
       />
       <section className="section app-section" id="app">

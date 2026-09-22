@@ -43,7 +43,7 @@ export default function Accumulo() {
       <PageHero
         title="Bateria"
         intro="Sistemet e akumulimit IDA Solar mundësojnë ruajtjen e energjisë së prodhuar për të optimizuar përdorimin e saj, për të reduktuar varësinë nga rrjeti dhe për të garantuar vazhdimësi operacionale. Të integruara në sistem, përmirësojnë efikasitetin e përgjithshëm dhe kontrollin energjetik."
-        image="/images/page-accumulo.jpg"
+        image="/images/page-accumulo.webp"
         fallback="/images/battery.jpg"
       />
       <section className="section accumulo-section">

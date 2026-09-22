@@ -19,7 +19,7 @@ export default function Contatti() {
       <PageHero
         title="Kontaktet"
         intro="Na kontakto për një konsultë teknike ose për më shumë informacion mbi zgjidhjet IDA Solar."
-        image="/images/page-contatti.jpg"
+        image="/images/page-contatti.webp"
         fallback="/images/hero.jpg"
       />
       <section className="section contatti-section">

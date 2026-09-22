@@ -7,7 +7,7 @@ export default function Progetti() {
       <PageHero
         title="Projektet"
         intro="Disa nga projektet ku IDA SOLAR ka projektuar, instaluar dhe integruar sisteme energjie për nevoja reale operacionale."
-        image="/images/page-progetti.jpg"
+        image="/images/page-progetti.webp"
         fallback="/images/project-malpensa.jpg"
       />
       <section className="section projects-section" id="projects">

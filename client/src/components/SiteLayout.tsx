@@ -309,6 +309,42 @@ function LanguageMenu() {
   );
 }
 
+const HeroToneContext = createContext<{
+  setTone: (tone: "light" | "dark") => void;
+}>({ setTone: () => {} });
+
+function measureTopTone(img: HTMLImageElement): "light" | "dark" {
+  try {
+    const w = 32;
+    const h = 16;
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return "light";
+    ctx.drawImage(
+      img,
+      0,
+      0,
+      img.naturalWidth,
+      Math.max(1, img.naturalHeight * 0.22),
+      0,
+      0,
+      w,
+      h,
+    );
+    const { data } = ctx.getImageData(0, 0, w, h);
+    let sum = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      sum +=
+        (0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]) / 255;
+    }
+    return sum / (data.length / 4) > 0.62 ? "light" : "dark";
+  } catch {
+    return "light";
+  }
+}
+
 export function PageHero({
   title,
   intro,
@@ -320,12 +356,14 @@ export function PageHero({
   image: string;
   fallback?: string;
 }) {
+  const { setTone } = useContext(HeroToneContext);
   return (
     <header className="page-hero">
       <img
         className="page-hero-img"
         src={image}
         alt=""
+        onLoad={event => setTone(measureTopTone(event.currentTarget))}
         onError={event => {
           const el = event.currentTarget;
           if (fallback && el.dataset.fb !== "1") {
@@ -381,6 +419,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [tone, setTone] = useState<"light" | "dark">("light");
   const [showConsultation, setShowConsultation] = useState(false);
   const [consultationSent, setConsultationSent] = useState(false);
   const consultationRef = useRef<HTMLDivElement>(null);
@@ -411,6 +450,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMenuOpen(false);
+    setTone("light");
     window.scrollTo({ top: 0 });
   }, [location]);
 
@@ -439,11 +479,12 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
   return (
     <ConsultationContext.Provider value={{ openConsultation }}>
+      <HeroToneContext.Provider value={{ setTone }}>
       <div className="site-shell" id="top">
         <header
           className={`site-header ${scrolled ? "header-scrolled" : ""} ${
             hidden && !menuOpen ? "header-hidden" : ""
-          }`}
+          } ${!scrolled && tone === "dark" ? "tone-dark" : ""}`}
         >
           <div className="container header-inner">
             <Logo />
@@ -669,6 +710,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           </div>
         )}
       </div>
+      </HeroToneContext.Provider>
     </ConsultationContext.Provider>
   );
 }

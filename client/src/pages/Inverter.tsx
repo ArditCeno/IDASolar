@@ -48,7 +48,7 @@ export default function Inverter() {
       <PageHero
         title="Inverter"
         intro="Inverterët IDA Solar menaxhojnë dhe transformojnë energjinë e prodhuar, duke garantuar kontroll, siguri dhe vazhdimësi operacionale brenda sistemit."
-        image="/images/page-inverter.jpg"
+        image="/images/page-inverter.webp"
         fallback="/images/panels.jpg"
       />
       <section className="section accumulo-section">
