@@ -1997,7 +1997,7 @@ h2 {
   width: 530px;
   height: 600px;
   position: relative;
-  zoom: 1;
+  zoom: var(--app-zoom, 1);
 }
 .app-glow {
   position: absolute;
@@ -2024,6 +2024,7 @@ h2 {
     24px 28px 0 rgba(23, 26, 32, 0.12),
     0 0 0 1px rgba(23, 26, 32, 0.15);
   transform: rotate(5deg);
+  transform-origin: top left;
 }
 .app-phone::before {
   content: "";
@@ -3388,7 +3389,7 @@ h2 {
     gap: 80px;
   }
   .app-scene {
-    zoom: 0.84;
+    --app-zoom: 0.62;
   }
 }
 
@@ -3397,7 +3398,7 @@ h2 {
     gap: 60px;
   }
   .app-scene {
-    zoom: 0.7;
+    --app-zoom: 0.55;
   }
   .footer-main {
     gap: 30px 24px;
@@ -3474,7 +3475,7 @@ h2 {
     justify-content: center;
   }
   .app-scene {
-    zoom: 0.62;
+    --app-zoom: 0.5;
   }
 }
 
@@ -3483,7 +3484,15 @@ h2 {
     gap: 40px;
   }
   .app-scene {
-    zoom: 0.5;
+    --app-zoom: 0.42;
+  }
+}
+
+@media (max-width: 900px) {
+  html,
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 }
 
@@ -3682,7 +3691,10 @@ h2 {
     margin-left: 0;
   }
   .app-scene {
-    zoom: 0.3;
+    --app-zoom: 0.3;
+  }
+  .app-phone {
+    transform: none;
   }
   .app-copy {
     margin-top: 0;
@@ -4016,7 +4028,10 @@ h2 {
     gap: 12px;
   }
   .app-scene {
-    zoom: 0.24;
+    --app-zoom: 0.26;
+  }
+  .app-phone {
+    transform: none;
   }
   .app-copy h2 {
     font-size: 16px;
