@@ -192,7 +192,6 @@ in sync automatically.
   </tr>
   <tr>
     <td width="50%"><img src="./docs/screenshots/app.jpg" alt="Mobile app" /></td>
-    <td width="50%"><img src="./docs/screenshots/home-mobile.jpg" alt="Home — mobile" /></td>
   </tr>
 </table>
 
