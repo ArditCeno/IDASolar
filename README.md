@@ -214,5 +214,5 @@ in sync automatically.
 Released under the **MIT License** — see [LICENSE](./LICENSE) for details.
 
 <div align="center">
-  <sub>Built by <a href="https://www.instagram.com/astraxsolutions/">AstraX Solutions</a></sub>
+  <sub>Built by <a href="https://www.linkedin.com/in/ardit-ceno-a674b5307/"> Ardit Ceno & <a href="https://www.instagram.com/astraxsolutions/">AstraX Solutions</a></sub>
 </div>
