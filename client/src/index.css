@@ -2989,6 +2989,32 @@ h2 {
 .footer-brand {
   grid-column: 1 / -1;
 }
+.footer-brand-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.footer-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  transition: opacity 0.2s ease;
+}
+.footer-brand-logo:hover {
+  opacity: 0.72;
+}
+.footer-brand-sep {
+  width: 1px;
+  height: 34px;
+  background: rgba(23, 26, 32, 0.22);
+}
+.footer-brand-astrax img {
+  display: block;
+  height: 30px;
+  width: auto;
+  filter: brightness(0);
+  opacity: 0.82;
+}
 .footer-brand > p {
   max-width: 330px;
   margin: 18px 0 22px;

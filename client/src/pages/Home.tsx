@@ -46,6 +46,9 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { LANGUAGES, type Lang } from "@/i18n/translations";
 import { asset } from "@/lib/asset";
 
+const INSTAGRAM_IDA = "https://www.instagram.com/idasolar.it/";
+const INSTAGRAM_ASTRAX = "https://www.instagram.com/astraxsolutions/";
+
 const HERO_IMAGE = asset("/images/hero.jpg");
 const PANEL_IMAGE = asset("/images/panels.jpg");
 const PANEL_ROOF_IMAGE = asset("/images/panele2.jpg");
@@ -1857,7 +1860,30 @@ export default function Home() {
 
         <div className="container footer-main">
           <div className="footer-brand">
-            <Logo />
+            <div className="footer-brand-row">
+              <a
+                className="footer-brand-logo"
+                href={INSTAGRAM_IDA}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="IDA Solar su Instagram"
+              >
+                <BrandLogo />
+              </a>
+              <span className="footer-brand-sep" aria-hidden="true" />
+              <a
+                className="footer-brand-logo footer-brand-astrax"
+                href={INSTAGRAM_ASTRAX}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="AstraX Solutions su Instagram"
+              >
+                <img
+                  src={asset("/images/astrax-logo.png")}
+                  alt="AstraX Solutions"
+                />
+              </a>
+            </div>
             <p>
               IDA Solar është një prodhues italian i sistemeve fotovoltaike që
               zhvillon module, invertorë dhe sisteme ruajtjeje për ndërtesa,
