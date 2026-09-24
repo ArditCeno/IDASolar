@@ -2,6 +2,7 @@ import { type FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { ArrowRight, Check, Mail, MapPin, Phone } from "lucide-react";
 import { SiteLayout, PageHero } from "@/components/SiteLayout";
+import { asset } from "@/lib/asset";
 
 export default function Contatti() {
   const [sent, setSent] = useState(false);
@@ -19,8 +20,8 @@ export default function Contatti() {
       <PageHero
         title="Kontaktet"
         intro="Na kontakto për një konsultë teknike ose për më shumë informacion mbi zgjidhjet IDA Solar."
-        image="/images/page-contatti.webp"
-        fallback="/images/hero.jpg"
+        image={asset("/images/page-contatti.webp")}
+        fallback={asset("/images/hero.jpg")}
       />
       <section className="section contatti-section">
         <div className="container contatti-grid">

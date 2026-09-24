@@ -5,42 +5,42 @@
 
 @font-face {
   font-family: "Parabolica";
-  src: url("/fonts/Parabolica-Regular.woff2") format("woff2");
+  src: url("/IDASolar/fonts/Parabolica-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Parabolica";
-  src: url("/fonts/Parabolica-Medium.woff2") format("woff2");
+  src: url("/IDASolar/fonts/Parabolica-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Parabolica";
-  src: url("/fonts/Parabolica-SemiBold.woff2") format("woff2");
+  src: url("/IDASolar/fonts/Parabolica-SemiBold.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Parabolica";
-  src: url("/fonts/Parabolica-Bold.woff2") format("woff2");
+  src: url("/IDASolar/fonts/Parabolica-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Alcione";
-  src: url("/fonts/Alcione-Regular.woff2") format("woff2");
+  src: url("/IDASolar/fonts/Alcione-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Alcione";
-  src: url("/fonts/Alcione-Italic.woff2") format("woff2");
+  src: url("/IDASolar/fonts/Alcione-Italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
   font-display: swap;

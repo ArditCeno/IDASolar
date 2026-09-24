@@ -1,4 +1,5 @@
 import { SiteLayout, PageHero } from "@/components/SiteLayout";
+import { asset } from "@/lib/asset";
 import { Calculator, SizingCalculator } from "./Home";
 
 export default function Calcolatore() {
@@ -7,8 +8,8 @@ export default function Calcolatore() {
       <PageHero
         title="Calcolatore"
         intro="Zgjidh kalkulatorin sipas asaj që di: faturën mujore ose konsumin dhe madhësinë e objektit."
-        image="/images/page-calcolatore.webp"
-        fallback="/images/panels.jpg"
+        image={asset("/images/page-calcolatore.webp")}
+        fallback={asset("/images/panels.jpg")}
       />
       <section className="section calculator-section" id="calculator">
         <div className="calculator-backdrop" />

@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 import { SiteLayout, PageHero, useConsultation } from "@/components/SiteLayout";
+import { asset } from "@/lib/asset";
 import { AppMockup } from "./Home";
 
 function AppCta() {
@@ -22,8 +23,8 @@ export default function AppPage() {
       <PageHero
         title="Aplikacioni"
         intro="Monitoroji dhe menaxho prodhimin, konsumin dhe baterinë në kohë reale, direkt nga telefoni."
-        image="/images/page-app.webp"
-        fallback="/images/hero.jpg"
+        image={asset("/images/page-app.webp")}
+        fallback={asset("/images/hero.jpg")}
       />
       <section className="section app-section" id="app">
         <div className="container app-grid">

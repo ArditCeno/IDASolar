@@ -1,4 +1,5 @@
 import { SiteLayout, PageHero } from "@/components/SiteLayout";
+import { asset } from "@/lib/asset";
 import { Projects } from "./Home";
 
 export default function Progetti() {
@@ -7,8 +8,8 @@ export default function Progetti() {
       <PageHero
         title="Projektet"
         intro="Disa nga projektet ku IDA SOLAR ka projektuar, instaluar dhe integruar sisteme energjie për nevoja reale operacionale."
-        image="/images/page-progetti.webp"
-        fallback="/images/project-malpensa.jpg"
+        image={asset("/images/page-progetti.webp")}
+        fallback={asset("/images/project-malpensa.jpg")}
       />
       <section className="section projects-section" id="projects">
         <div className="container">

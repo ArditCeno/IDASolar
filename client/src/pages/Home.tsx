@@ -44,15 +44,17 @@ import { Link } from "wouter";
 import { BrandLogo } from "@/components/SiteLayout";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { LANGUAGES, type Lang } from "@/i18n/translations";
+import { asset } from "@/lib/asset";
 
-const HERO_IMAGE = "/images/hero.jpg";
-const PANEL_IMAGE = "/images/panels.jpg";
-const PANEL_ROOF_IMAGE = "/images/panele2.jpg";
-const BATTERY_IMAGE = "/images/battery.jpg";
+const HERO_IMAGE = asset("/images/hero.jpg");
+const PANEL_IMAGE = asset("/images/panels.jpg");
+const PANEL_ROOF_IMAGE = asset("/images/panele2.jpg");
+const BATTERY_IMAGE = asset("/images/battery.jpg");
 
 const GALLERY_IMAGES = Array.from(
   { length: 10 },
-  (_, index) => `/images/gallery-${String(index + 1).padStart(2, "0")}.jpg`,
+  (_, index) =>
+    asset(`/images/gallery-${String(index + 1).padStart(2, "0")}.jpg`),
 );
 
 const PANEL_LAYERS = [
@@ -87,42 +89,42 @@ const IDA_PRODUCTS = [
   {
     name: "IDA PLUG",
     tag: "Mikroinvertor i integruar",
-    image: "/images/ida-plug.jpg",
+    image: asset("/images/ida-plug.jpg"),
     p1: "IDA PLUG përfaqëson një zgjidhje kompakte dhe të thjeshtuar për aplikime rezidenciale. Sistemi integron mikroinvertorët direkt në modul, duke lejuar instalim të shpejtë dhe të lehtë pa konfigurime komplekse.",
     p2: "Falë monitorimit të aplikacionit dhe menaxhimit të decentralizuar të energjisë, ai ofron qasje të drejtpërdrejtë dhe të menjëhershme në energjinë diellore.",
   },
   {
     name: "IDA GLASS",
     tag: "Xham i dyfishtë",
-    image: "/images/ida-glass.jpg",
+    image: asset("/images/ida-glass.jpg"),
     p1: "Modulet IDA GLASS janë projektuar për integrimin arkitektonik të fotovoltaikëve në fasada, çati dhe struktura ndërtesash.",
     p2: "Konfigurimi me xham të dyfishtë, i disponueshëm në versione transparente ose me ngjyra, lejon kombinimin e prodhimit të energjisë dhe funksionit strukturor në një element të vetëm.",
   },
   {
     name: "IDA ALPINE",
     tag: "Deri 8000 Pa borë",
-    image: "/images/ida-alpine.jpg",
+    image: asset("/images/ida-alpine.jpg"),
     p1: "Modulet IDA ALPINE janë projektuar për kushte ekstreme klimatike, ku forca strukturore është një kërkesë kyçe. Struktura e përforcuar mund t'i rezistojë ngarkesave të rënda, duke përfshirë ngarkesat e borës deri në 8000 Pa, duke ruajtur njëkohësisht performancë të qëndrueshme me kalimin e kohës.",
     p2: "Kjo zgjidhje është menduar për instalime në mjedise kritike, ku siguria, qëndrueshmëria dhe besueshmëria janë përparësi operacionale.",
   },
   {
     name: "IDA MAXIM",
     tag: "Optimizues i integruar",
-    image: "/images/ida-maxim.jpg",
+    image: asset("/images/ida-maxim.jpg"),
     p1: "Teknologjia IDA MAXIM prezanton një sistem inteligjent të optimizimit të integruar, i projektuar për të përmirësuar prodhimin e energjisë në prani të hijes. Përmes përdorimit të optimizuesve të integruar, sistemi zvogëlon humbjet dhe siguron prodhim të vazhdueshëm edhe në kushte jo optimale.",
     p2: "Kjo qasje përmirëson efikasitetin e përgjithshëm të sistemit pa pasur nevojë për komponentë shtesë.",
   },
   {
     name: "IDA CORE",
     tag: "Bifacial",
-    image: "/images/ida-core.jpg",
+    image: asset("/images/ida-core.jpg"),
     p1: "Të projektuara për aplikime rezidenciale dhe komerciale, ato integrojnë teknologjinë bifaciale dhe qelizat me performancë të lartë për të siguruar performancë të qëndrueshme me kalimin e kohës.",
     p2: "Konfigurimi me xham të dyfishtë dhe përdorimi i komponentëve të çertifikuar lejon stabilitet më të madh strukturor dhe prodhim të optimizuar të energjisë edhe në kushte të ndryshueshme.",
   },
   {
     name: "IDA POWER",
     tag: "All-black",
-    image: "/images/ida-power.jpg",
+    image: asset("/images/ida-power.jpg"),
     p1: "Linja IDA POWER është projektuar për aplikime me performancë të lartë, ku efikasiteti i energjisë dhe integrimi estetik duhet të bashkëjetojnë. Modulet përdorin teknologji të përparuar me xham të dyfishtë, kornizë të zezë dhe konfigurime dizajni të zi, duke siguruar një ndikim të kontrolluar vizual dhe rendiment superior të energjisë.",
     p2: "Kjo linjë është projektuar për projekte rezidenciale, mikpritëse dhe arkitekturore të nivelit të lartë, ku sistemi fotovoltaik bëhet pjesë integrale e projektit.",
   },
@@ -132,7 +134,7 @@ const IDA_PROJECTS = [
   {
     name: "Malpensa White Suites",
     category: "Hotel & Hospitality",
-    image: "/images/project-malpensa.jpg",
+    image: asset("/images/project-malpensa.jpg"),
     description:
       "Sistem i integruar energjie i zhvilluar për një strukturë mikpritëse me zënie të lartë, i projektuar për të garantuar vazhdimësi operacionale, reduktim të konsumit dhe menaxhim efikas të energjisë gjatë gjithë vitit.",
     implementation:
@@ -141,7 +143,7 @@ const IDA_PROJECTS = [
   {
     name: "Nuova Siga",
     category: "Industrial & Production",
-    image: "/images/project-siga-e-re.jpg",
+    image: asset("/images/project-siga-e-re.jpg"),
     description:
       "Impiant fotovoltaik i projektuar për të mbështetur aktivitete prodhuese dhe logjistike, duke optimizuar kostot energjetike dhe duke garantuar stabilitet operativ në proceset e biznesit.",
     implementation:
@@ -150,7 +152,7 @@ const IDA_PROJECTS = [
   {
     name: "One Active",
     category: "Commercial & Office",
-    image: "/images/project-nje-aktiv.jpg",
+    image: asset("/images/project-nje-aktiv.jpg"),
     description:
       "Sistem i integruar energjie për ndërtesë drejtuese dhe hapësira tregtare, i zhvilluar për të përmirësuar efikasitetin energjetik dhe për të reduktuar varësinë nga rrjeti.",
     implementation:
@@ -159,7 +161,7 @@ const IDA_PROJECTS = [
   {
     name: "Alo Pronto",
     category: "Urban Business Facility",
-    image: "/images/project-alo-pronto.jpg",
+    image: asset("/images/project-alo-pronto.jpg"),
     description:
       "Zgjidhje energjetike e projektuar për aktivitete urbane me përdorim të lartë energjie, me fokus në besueshmëri, vazhdimësi dhe optimizim të konsumit.",
     implementation:
