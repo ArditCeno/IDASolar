@@ -57,14 +57,6 @@ const GALLERY_IMAGES = Array.from(
     asset(`/images/gallery-${String(index + 1).padStart(2, "0")}.jpg`),
 );
 
-const PANEL_LAYERS = [
-  { n: 1, label: "Cornice in alluminio" },
-  { n: 2, label: "Vetro solare temperato" },
-  { n: 3, label: "Strato incapsulante EVA" },
-  { n: 4, label: "Cella fotovoltaica" },
-  { n: 5, label: "Foglio protettivo posteriore" },
-] as const;
-
 const PROPERTY_TYPES = [
   { key: "home", label: "Shtëpi private", factor: 3.2, Icon: HomeIcon },
   { key: "apartment", label: "Apartament", factor: 2.8, Icon: Building2 },
@@ -1446,14 +1438,6 @@ export default function Home() {
                     }
                   }}
                 />
-                {PANEL_LAYERS.map(layer => (
-                  <span
-                    className={`layer-label layer-${layer.n}`}
-                    key={layer.n}
-                  >
-                    {layer.label}
-                  </span>
-                ))}
               </div>
             </div>
           </div>
