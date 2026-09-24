@@ -612,7 +612,20 @@ export const DICT: Record<string, Translation> = {
     en: "Send another request",
     it: "Invia un'altra richiesta",
   },
-  Mbyll: { en: "Close", it: "Chiudi" },
+  Mbyll: {
+    en: "Close",
+    it: "Chiudi",
+    es: "Cerrar",
+    fr: "Fermer",
+    de: "Schließen",
+  },
+  "Lexo më shumë": {
+    en: "Read more",
+    it: "Leggi di più",
+    es: "Leer más",
+    fr: "Lire la suite",
+    de: "Mehr lesen",
+  },
   "Mbyll dialogun": { en: "Close dialog", it: "Chiudi la finestra" },
   "Kërko konsultën": { en: "Request the consultation", it: "Richiedi la consulenza" },
   "Ne e përdorim këtë informacion vetëm për të të kontaktuar rreth kërkesës.": {
