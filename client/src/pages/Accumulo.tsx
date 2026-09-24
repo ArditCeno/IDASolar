@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { SiteLayout, PageHero, useConsultation } from "@/components/SiteLayout";
+import { BatteryGrid } from "@/components/BatteryGrid";
 import { asset } from "@/lib/asset";
 
 const BATTERY_TYPES = [
@@ -48,29 +49,7 @@ export default function Accumulo() {
         fallback={asset("/images/battery.jpg")}
       />
       <section className="section accumulo-section">
-        <div className="container battery-grid">
-          {BATTERY_TYPES.map(type => (
-            <article className="battery-card" key={type.name}>
-              <figure className="battery-media" data-name={type.name}>
-                <img
-                  src={type.image}
-                  alt={type.name}
-                  loading="lazy"
-                  decoding="async"
-                  onError={event => {
-                    event.currentTarget.style.display = "none";
-                    event.currentTarget.parentElement?.classList.add("is-empty");
-                  }}
-                />
-              </figure>
-              <h3>{type.name}</h3>
-              <p>{type.text}</p>
-              <button className="button button-primary battery-cta" type="button">
-                Shkarko fletën teknike <ArrowRight size={15} />
-              </button>
-            </article>
-          ))}
-        </div>
+        <BatteryGrid items={BATTERY_TYPES} />
 
         <div className="container accumulo-cta">
           <h3>Akumulimi plotëson sistemin energjetik</h3>

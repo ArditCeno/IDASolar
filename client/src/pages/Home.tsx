@@ -1091,28 +1091,49 @@ export function GalleryMarquee() {
 }
 
 export function ProductGrid() {
+  const [openCard, setOpenCard] = useState<string | null>(null);
+
   return (
     <div className="product-grid">
-      {IDA_PRODUCTS.map(product => (
-        <article className="product-card reveal-up" key={product.name}>
-          <figure className="product-media" data-name={product.name}>
-            <img
-              src={product.image}
-              alt={product.name}
-              loading="lazy"
-              decoding="async"
-              onError={event => {
-                event.currentTarget.style.display = "none";
-                event.currentTarget.parentElement?.classList.add("is-empty");
-              }}
-            />
-          </figure>
-          <span className="product-tag">{product.tag}</span>
-          <h3>{product.name}</h3>
-          <p>{product.p1}</p>
-          <p className="muted">{product.p2}</p>
-        </article>
-      ))}
+      {IDA_PRODUCTS.map(product => {
+        const isOpen = openCard === product.name;
+        return (
+          <article
+            className={`product-card reveal-up${isOpen ? " is-open" : ""}`}
+            key={product.name}
+            role="button"
+            tabIndex={0}
+            aria-expanded={isOpen}
+            onClick={() => setOpenCard(isOpen ? null : product.name)}
+            onKeyDown={event => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setOpenCard(isOpen ? null : product.name);
+              }
+            }}
+          >
+            <figure className="product-media" data-name={product.name}>
+              <img
+                src={product.image}
+                alt={product.name}
+                loading="lazy"
+                decoding="async"
+                onError={event => {
+                  event.currentTarget.style.display = "none";
+                  event.currentTarget.parentElement?.classList.add("is-empty");
+                }}
+              />
+            </figure>
+            <span className="product-tag">{product.tag}</span>
+            <h3>{product.name}</h3>
+            <p>{product.p1}</p>
+            <p className="muted">{product.p2}</p>
+            <span className="card-toggle">
+              {isOpen ? "Mbyll" : "Lexo më shumë"}
+            </span>
+          </article>
+        );
+      })}
     </div>
   );
 }
