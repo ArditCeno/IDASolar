@@ -24,7 +24,7 @@ energy storage systems for homes, businesses and infrastructure.
 
 ---
 
-## 📖 Overview
+##  Overview
 
 A fast, multilingual marketing website built with **React + Vite** and a
 custom, brand-driven design system. It showcases IDA Solar's product lines,
@@ -36,26 +36,26 @@ GitHub Pages** on every push to `main`.
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🌍 **6 languages** — Italian (default), English, Spanish, French, German and
+-  **6 languages** — Italian (default), English, Spanish, French, German and
   Albanian, switchable on the fly with `localStorage` persistence.
-- 🧮 **Interactive sizing calculator** — estimate a system from either the
+-  **Interactive sizing calculator** — estimate a system from either the
   monthly bill or the household consumption & size.
-- 🗂️ **Product & project catalogs** — expandable cards, image galleries and
+-  **Product & project catalogs** — expandable cards, image galleries and
   scroll-reveal animations.
-- 📱 **Animated app mockup** — a responsive phone preview that scales cleanly
+-  **Animated app mockup** — a responsive phone preview that scales cleanly
   from desktop down to mobile.
-- 🎨 **Adaptive glass header** — automatically switches contrast based on the
+-  **Adaptive glass header** — automatically switches contrast based on the
   hero image luminance.
-- 🧾 **Consultation request modal** — validated contact form with toast
+-  **Consultation request modal** — validated contact form with toast
   feedback.
-- 📞 **Instant contact CTAs** — WhatsApp, phone and Instagram.
-- ⚡ **Static & fast** — prerendered build, no runtime backend required.
+-  **Instant contact CTAs** — WhatsApp, phone and Instagram.
+-  **Static & fast** — prerendered build, no runtime backend required.
 
 ---
 
-## 🧱 Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 | --- | --- |
@@ -73,7 +73,7 @@ GitHub Pages** on every push to `main`.
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 IDASolar/
@@ -98,7 +98,7 @@ IDASolar/
 
 ---
 
-## 🗺️ Pages & Routes
+##  Pages & Routes
 
 | Route | Page |
 | --- | --- |
@@ -159,7 +159,7 @@ pnpm dev
 
 ---
 
-## 📦 Build & Deploy
+##  Build & Deploy
 
 The project is configured with `base: "/IDASolar/"` and deployed to **GitHub
 Pages** via the workflow in `.github/workflows/deploy.yml`:
@@ -175,7 +175,7 @@ in sync automatically.
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 <table>
   <tr>
@@ -198,23 +198,22 @@ in sync automatically.
 
 ---
 
-## 📬 Contact
+##  Contact
 
 | | |
 | --- | --- |
 | 🌐 **Website** | [arditceno.github.io/IDASolar](https://arditceno.github.io/IDASolar/) |
-| ✉️ **Email** | [info@idasolar.it](mailto:info@idasolar.it) |
+| ✉️ **Email** | [info@idasolar.it](mailto:info@idasolar.it) [astraxsolutions@gmail.com](mailto:astraxsolutions@gmail.com)|
 | ☎️ **Phone / WhatsApp** | [+39 346 353 0429](https://wa.me/393463530429) |
 | 📍 **Address** | Via Milano, 8 — 20816 Ceriano Laghetto (MB), Italy |
-| 📷 **IDA Solar** | [@idasolar.it](https://www.instagram.com/idasolar.it/) |
 | 📷 **AstraX Solutions** | [@astraxsolutions](https://www.instagram.com/astraxsolutions/) |
 
 ---
 
-## 📄 License
+##  License
 
 Released under the **MIT License** — see [LICENSE](./LICENSE) for details.
 
 <div align="center">
-  <sub>Built with ☀️ by <a href="https://www.instagram.com/astraxsolutions/">AstraX Solutions</a></sub>
+  <sub>Built by <a href="https://www.instagram.com/astraxsolutions/">AstraX Solutions</a></sub>
 </div>
