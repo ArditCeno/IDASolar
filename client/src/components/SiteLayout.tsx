@@ -156,15 +156,9 @@ export function BrandLogo() {
 
 export function Logo() {
   return (
-    <a
-      className="brand"
-      href="https://www.instagram.com/idasolar.it/"
-      target="_blank"
-      rel="noreferrer"
-      aria-label="IDA Solar su Instagram"
-    >
+    <Link className="brand" href="/" aria-label="IDA SOLAR - në krye">
       <BrandLogo />
-    </a>
+    </Link>
   );
 }
 
