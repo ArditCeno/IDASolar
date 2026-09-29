@@ -251,6 +251,9 @@ in sync automatically.
   <tr>
     <td width="50%"><img src="./docs/screenshots/app.jpg" alt="Mobile app" /></td>
   </tr>
+  <tr>
+    <td colspan="2"><img src="./docs/screenshots/calcolatore-compass.jpg" alt="Interactive orientation compass" /></td>
+  </tr>
 </table>
 
 ---
