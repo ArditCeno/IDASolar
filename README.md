@@ -24,24 +24,24 @@ energy storage systems for homes, businesses and infrastructure.
 
 ---
 
-##  Table of Contents
+## Table of Contents
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Pages & Routes](#-pages--routes)
-- [Solar Sizing Calculator](#-solar-sizing-calculator)
-- [Internationalization](#-internationalization)
-- [Getting Started](#-getting-started)
-- [Build & Deploy](#-build--deploy)
-- [Screenshots](#-screenshots)
-- [Contact](#-contact)
-- [License](#-license)
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Pages & Routes](#pages--routes)
+- [Solar Sizing Calculator](#solar-sizing-calculator)
+- [Internationalization](#internationalization)
+- [Getting Started](#getting-started)
+- [Build & Deploy](#build--deploy)
+- [Screenshots](#screenshots)
+- [Contact](#contact)
+- [License](#license)
 
 ---
 
-##  Overview
+## Overview
 
 A fast, multilingual marketing website built with **React + Vite** and a
 custom, brand-driven design system. It showcases IDA Solar's product lines,
@@ -53,30 +53,30 @@ GitHub Pages** on every push to `main`.
 
 ---
 
-##  Features
+## Features
 
--  **6 languages** — Italian (default), English, Spanish, French, German and
+- **6 languages** — Italian (default), English, Spanish, French, German and
   Albanian, switchable on the fly with `localStorage` persistence.
--  **Accurate sizing calculator** — estimate a system from the monthly bill
+- **Accurate sizing calculator** — estimate a system from the monthly bill
   or the household consumption & size, with savings, payback and CO₂.
--  **Interactive orientation compass** — set the roof direction by dragging,
+- **Interactive orientation compass** — set the roof direction by dragging,
   with the keyboard, or by following the **phone's compass sensor**.
--  **Automatic zone detection** — the solar yield is derived from the
+- **Automatic zone detection** — the solar yield is derived from the
   visitor's location (no manual region picker).
--  **Product & project catalogs** — expandable cards, image galleries and
+- **Product & project catalogs** — expandable cards, image galleries and
   scroll-reveal animations.
--  **Animated app mockup** — a responsive phone preview that scales cleanly
+- **Animated app mockup** — a responsive phone preview that scales cleanly
   from desktop down to mobile.
--  **Adaptive glass header** — automatically switches contrast based on the
+- **Adaptive glass header** — automatically switches contrast based on the
   hero image luminance.
--  **Consultation request modal** — validated contact form with toast
+- **Consultation request modal** — validated contact form with toast
   feedback.
--  **Instant contact CTAs** — WhatsApp, phone and Instagram.
--  **Static & fast** — prerendered build, no runtime backend required.
+- **Instant contact CTAs** — WhatsApp, phone and Instagram.
+- **Static & fast** — prerendered build, no runtime backend required.
 
 ---
 
-##  Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 | --- | --- |
@@ -95,7 +95,7 @@ GitHub Pages** on every push to `main`.
 
 ---
 
-##  Project Structure
+## Project Structure
 
 ```
 IDASolar/
@@ -122,7 +122,7 @@ IDASolar/
 
 ---
 
-##  Pages & Routes
+## Pages & Routes
 
 | Route | Page |
 | --- | --- |
@@ -140,7 +140,7 @@ IDASolar/
 
 ---
 
-##  Solar Sizing Calculator
+## Solar Sizing Calculator
 
 `/calcolatore` hosts a real-time sizing engine that turns the customer's own
 numbers into a concrete system recommendation.
@@ -155,12 +155,12 @@ numbers into a concrete system recommendation.
 Each calculator carries its own **property type**, **energy-price slider** and
 **backup-battery toggle**, so results update instantly.
 
-** Interactive orientation compass** — set the roof direction on an iOS-style
+**Interactive orientation compass** — set the roof direction on an iOS-style
 compass: drag the needle, use the arrow keys, or tap **“Use the phone compass”**
 to follow the device's real heading. A light/dark toggle and a live efficiency
 read-out are included.
 
-** Automatic zone detection** — the specific yield is derived from the
+**Automatic zone detection** — the specific yield is derived from the
 visitor's latitude (≈1,100 kWh/kWp in the North → ≈1,550 kWh/kWp in the South),
 falling back to the Italian average when location is unavailable.
 
@@ -186,7 +186,7 @@ battery size · annual production · self-consumption · annual savings ·
 
 ---
 
-##  Internationalization
+## Internationalization
 
 The UI text lives in a single Albanian-keyed dictionary
 (`client/src/i18n/translations.ts`) and is applied at runtime by a lightweight
@@ -204,6 +204,18 @@ follows the selected language.
 
 ---
 
+## Getting Started
+
+**Prerequisites:** Node.js ≥ 20 and pnpm ≥ 10.
+
+```bash
+# 1. Install dependencies
+pnpm install
+
+# 2. Start the dev server (http://localhost:3000/IDASolar/)
+pnpm dev
+```
+
 ### Available scripts
 
 | Command | Description |
@@ -217,7 +229,7 @@ follows the selected language.
 
 ---
 
-##  Build & Deploy
+## Build & Deploy
 
 The project is configured with `base: "/IDASolar/"` and deployed to **GitHub
 Pages** via the workflow in `.github/workflows/deploy.yml`:
@@ -233,7 +245,7 @@ in sync automatically.
 
 ---
 
-##  Screenshots
+## Screenshots
 
 <table>
   <tr>
@@ -258,7 +270,7 @@ in sync automatically.
 
 ---
 
-## 📬 Contact
+## Contact
 
 | | |
 | --- | --- |
@@ -270,7 +282,7 @@ in sync automatically.
 
 ---
 
-## 📄 License
+## License
 
 Released under the **MIT License** — see [LICENSE](./LICENSE) for details.
 
