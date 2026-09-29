@@ -595,13 +595,14 @@ h2 {
   position: absolute;
   inset: 0 43px 0 0;
   overflow: hidden;
-  background: var(--brand-soft);
+  background: #f0f2ec;
 }
 .visual-image {
   position: absolute;
   inset: 0;
   background-position: center;
-  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: contain;
   filter: saturate(0.9) contrast(1.04);
 }
 .visual-gradient {

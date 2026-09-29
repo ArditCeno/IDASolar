@@ -15,7 +15,7 @@ export default function Calcolatore() {
         title="Calcolatore"
         intro="Zgjidh kalkulatorin sipas asaj që di: faturën mujore ose konsumin dhe madhësinë e objektit. Rezultati përditësohet menjëherë."
         image={asset("/images/page-calcolatore.webp")}
-        fallback={asset("/images/panels.jpg")}
+        fallback={asset("/images/panels.webp")}
       />
       <section className="section calculator-section" id="calculator">
         <div className="calculator-backdrop" />

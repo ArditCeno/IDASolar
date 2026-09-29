@@ -51,7 +51,7 @@ export default function Inverter() {
         title="Inverter"
         intro="Inverterët IDA Solar menaxhojnë dhe transformojnë energjinë e prodhuar, duke garantuar kontroll, siguri dhe vazhdimësi operacionale brenda sistemit."
         image={asset("/images/page-inverter.webp")}
-        fallback={asset("/images/panels.jpg")}
+        fallback={asset("/images/panels.webp")}
       />
       <section className="section accumulo-section">
         <BatteryGrid items={INVERTER_TYPES} />

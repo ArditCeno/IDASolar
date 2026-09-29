@@ -61,7 +61,7 @@ const INSTAGRAM_IDA = "https://www.instagram.com/idasolar.it/";
 const INSTAGRAM_ASTRAX = "https://www.instagram.com/astraxsolutions/";
 
 const HERO_IMAGE = asset("/images/hero.jpg");
-const PANEL_IMAGE = asset("/images/panels.jpg");
+const PANEL_IMAGE = asset("/images/panels.webp");
 const PANEL_ROOF_IMAGE = asset("/images/panele2.jpg");
 const BATTERY_IMAGE = asset("/images/battery.jpg");
 

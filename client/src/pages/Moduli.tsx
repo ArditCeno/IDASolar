@@ -9,7 +9,7 @@ export default function Moduli() {
         title="Moduli Fotovoltaici"
         intro="Nga zgjidhjet kompakte rezidenciale te modulet për kushte ekstreme — secila linjë IDA është projektuar për një nevojë të qartë."
         image={asset("/images/page-moduli.webp")}
-        fallback={asset("/images/panels.jpg")}
+        fallback={asset("/images/panels.webp")}
       />
       <section className="section product-section" id="products">
         <div className="container">
