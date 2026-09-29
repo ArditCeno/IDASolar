@@ -1,7 +1,6 @@
 // Solar sizing engine — Italian market averages (editable in one place).
 
 export type ZoneKey = "north" | "center" | "south";
-export type OrientationKey = "south" | "ew" | "flat";
 export type PropertyKey = "home" | "apartment" | "business" | "industry";
 
 /** Retail electricity price (€/kWh). */
@@ -24,12 +23,30 @@ export const ZONES: { key: ZoneKey; label: string; yield: number }[] = [
   { key: "south", label: "Jug", yield: 1550 },
 ];
 
-/** Orientation/tilt correction factor. */
-export const ORIENTATIONS: { key: OrientationKey; label: string; factor: number }[] = [
-  { key: "south", label: "Jug", factor: 1 },
-  { key: "ew", label: "Lindje / Perëndim", factor: 0.85 },
-  { key: "flat", label: "Horizontale", factor: 0.9 },
-];
+/**
+ * Orientation correction factor from the roof azimuth in degrees.
+ * 0° = North, 90° = East, 180° = South (optimal), 270° = West.
+ * South → 1.00, East/West → ≈0.85, North → 0.70.
+ */
+export function azimuthFactor(azimuth: number): number {
+  const rad = ((azimuth - 180) * Math.PI) / 180;
+  return 0.7 + (0.3 * (1 + Math.cos(rad))) / 2;
+}
+
+/** Cardinal/ordinal label for an azimuth (Albanian — translated by the DOM translator). */
+export function azimuthLabel(azimuth: number): string {
+  const dirs = [
+    "Veri",
+    "Veri-Lindje",
+    "Lindje",
+    "Jug-Lindje",
+    "Jug",
+    "Jug-Perëndim",
+    "Perëndim",
+    "Veri-Perëndim",
+  ];
+  return dirs[Math.round(((azimuth % 360) + 360) % 360 / 45) % 8];
+}
 
 /**
  * Property types with their typical self-consumption ratio (with / without
@@ -62,7 +79,8 @@ export const PANEL_TIERS = [
 
 export interface CalcOptions {
   zone: ZoneKey;
-  orientation: OrientationKey;
+  /** Roof azimuth in degrees (0° = North, 90° = East, 180° = South, 270° = West). */
+  azimuth: number;
   battery: boolean;
   energyTariff: number;
   exportTariff: number;
@@ -100,11 +118,9 @@ export function estimateSystem(
   options: CalcOptions,
 ): SolarResult {
   const zone = ZONES.find(z => z.key === options.zone) ?? ZONES[1];
-  const orientation =
-    ORIENTATIONS.find(o => o.key === options.orientation) ?? ORIENTATIONS[0];
   const profile = PROPERTY_TYPES.find(p => p.key === property) ?? PROPERTY_TYPES[0];
 
-  const yieldPerKwp = zone.yield * orientation.factor;
+  const yieldPerKwp = zone.yield * azimuthFactor(options.azimuth);
   const consumption = Math.max(0, annualConsumptionKwh);
 
   const kwp = Math.min(

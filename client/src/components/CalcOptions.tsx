@@ -1,6 +1,7 @@
 import { type CSSProperties } from "react";
 import { BatteryCharging } from "lucide-react";
-import { type CalcOptions, ORIENTATIONS, ZONES } from "@/lib/solar";
+import { OrientationCompass } from "@/components/OrientationCompass";
+import { type CalcOptions, ZONES } from "@/lib/solar";
 
 export function CalcOptionsPanel({
   value,
@@ -28,23 +29,12 @@ export function CalcOptionsPanel({
         </div>
       </div>
 
-      <div className="calc-opt">
+      <div className="calc-opt calc-opt-compass">
         <span className="calc-opt-label">Orientimi</span>
-        <div className="calc-seg" role="group" aria-label="Orientimi i çatisë">
-          {ORIENTATIONS.map(orientation => (
-            <button
-              key={orientation.key}
-              type="button"
-              className={value.orientation === orientation.key ? "selected" : ""}
-              aria-pressed={value.orientation === orientation.key}
-              onClick={() =>
-                onChange({ ...value, orientation: orientation.key })
-              }
-            >
-              {orientation.label}
-            </button>
-          ))}
-        </div>
+        <OrientationCompass
+          value={value.azimuth}
+          onChange={azimuth => onChange({ ...value, azimuth })}
+        />
       </div>
 
       <div className="calc-opt calc-opt-price">

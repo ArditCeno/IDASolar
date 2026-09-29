@@ -8,7 +8,7 @@ import { Calculator, SizingCalculator } from "./Home";
 export default function Calcolatore() {
   const [options, setOptions] = useState<CalcOptions>({
     zone: "center",
-    orientation: "south",
+    azimuth: 180,
     battery: true,
     energyTariff: ENERGY_TARIFF,
     exportTariff: EXPORT_TARIFF,
