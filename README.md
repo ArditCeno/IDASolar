@@ -9,9 +9,9 @@ energy storage systems for homes, businesses and infrastructure.
 
 <br />
 
-[![Live Site](https://img.shields.io/badge/Live-arditceno.github.io%2FIDASolar-55BF5D?style=for-the-badge&logo=githubpages&logoColor=white)](https://arditceno.github.io/IDASolar/)
-
 [![Deploy](https://github.com/ArditCeno/IDASolar/actions/workflows/deploy.yml/badge.svg)](https://github.com/ArditCeno/IDASolar/actions/workflows/deploy.yml)
+
+[![Live Site](https://img.shields.io/badge/Live-arditceno.github.io%2FIDASolar-55BF5D?style=for-the-badge&logo=githubpages&logoColor=white)](https://arditceno.github.io/IDASolar/)
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
