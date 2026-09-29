@@ -42,17 +42,18 @@ import {
 import { toast } from "sonner";
 import { Link } from "wouter";
 import { BrandLogo } from "@/components/SiteLayout";
-import { CalcOptionsPanel } from "@/components/CalcOptions";
+import { CalcExtras } from "@/components/CalcExtras";
 import { CalcResult } from "@/components/CalcResult";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { LANGUAGES, type Lang } from "@/i18n/translations";
 import { asset } from "@/lib/asset";
 import {
   clamp,
+  ENERGY_TARIFF,
   estimateSystem,
+  EXPORT_TARIFF,
   formatEur,
   PROPERTY_TYPES,
-  type CalcOptions,
   type PropertyKey,
 } from "@/lib/solar";
 
@@ -453,14 +454,25 @@ export function AppMockup() {
   );
 }
 
-export function Calculator({ options }: { options: CalcOptions }) {
+type CalcContext = { specificYield: number; azimuth: number };
+
+export function Calculator({ specificYield, azimuth }: CalcContext) {
   const [property, setProperty] = useState<PropertyKey>("home");
   const [bill, setBill] = useState(80);
+  const [energyTariff, setEnergyTariff] = useState(ENERGY_TARIFF);
+  const [battery, setBattery] = useState(true);
   const { locale } = useLanguage();
 
   const result = useMemo(
-    () => estimateSystem((bill * 12) / options.energyTariff, property, options),
-    [bill, property, options],
+    () =>
+      estimateSystem((bill * 12) / energyTariff, property, {
+        specificYield,
+        azimuth,
+        battery,
+        energyTariff,
+        exportTariff: EXPORT_TARIFF,
+      }),
+    [bill, property, specificYield, azimuth, battery, energyTariff],
   );
 
   return (
@@ -543,6 +555,12 @@ export function Calculator({ options }: { options: CalcOptions }) {
             </div>
           </div>
 
+          <CalcExtras
+            tariff={energyTariff}
+            onTariff={setEnergyTariff}
+            battery={battery}
+            onBattery={setBattery}
+          />
         </div>
 
         <CalcResult result={result} />
@@ -551,15 +569,24 @@ export function Calculator({ options }: { options: CalcOptions }) {
   );
 }
 
-export function SizingCalculator({ options }: { options: CalcOptions }) {
+export function SizingCalculator({ specificYield, azimuth }: CalcContext) {
   const [property, setProperty] = useState<PropertyKey>("home");
   const [area, setArea] = useState(120);
   const [monthlyKwh, setMonthlyKwh] = useState(400);
+  const [energyTariff, setEnergyTariff] = useState(ENERGY_TARIFF);
+  const [battery, setBattery] = useState(true);
   const { locale } = useLanguage();
 
   const result = useMemo(
-    () => estimateSystem(monthlyKwh * 12, property, options),
-    [monthlyKwh, property, options],
+    () =>
+      estimateSystem(monthlyKwh * 12, property, {
+        specificYield,
+        azimuth,
+        battery,
+        energyTariff,
+        exportTariff: EXPORT_TARIFF,
+      }),
+    [monthlyKwh, property, specificYield, azimuth, battery, energyTariff],
   );
 
   const profile =
@@ -710,6 +737,12 @@ export function SizingCalculator({ options }: { options: CalcOptions }) {
             </div>
           </div>
 
+          <CalcExtras
+            tariff={energyTariff}
+            onTariff={setEnergyTariff}
+            battery={battery}
+            onBattery={setBattery}
+          />
         </div>
 
         <CalcResult result={result} />

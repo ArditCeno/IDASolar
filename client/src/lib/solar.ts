@@ -1,6 +1,5 @@
 // Solar sizing engine — Italian market averages (editable in one place).
 
-export type ZoneKey = "north" | "center" | "south";
 export type PropertyKey = "home" | "apartment" | "business" | "industry";
 
 /** Retail electricity price (€/kWh). */
@@ -15,13 +14,26 @@ export const DEGRADATION = 0.005;
 export const CO2_KG_PER_KWH = 0.25;
 /** Analysis horizon in years. */
 export const SYSTEM_LIFE = 20;
+/** Fallback specific yield when the position is unknown (kWh/kWp/year). */
+export const DEFAULT_YIELD = 1350;
 
-/** Specific yield by macro-region (kWh/kWp/year). */
-export const ZONES: { key: ZoneKey; label: string; yield: number }[] = [
-  { key: "north", label: "Veri", yield: 1150 },
-  { key: "center", label: "Qendër", yield: 1350 },
-  { key: "south", label: "Jug", yield: 1550 },
-];
+export const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+
+/**
+ * Specific yield estimated from latitude (kWh/kWp/year).
+ * 46°N ≈ 1,100 · 41.5°N ≈ 1,325 · 37°N ≈ 1,550.
+ */
+export function yieldFromLatitude(latitude: number): number {
+  return Math.round(clamp(1100 + (46 - latitude) * 50, 1050, 1600));
+}
+
+/** Macro-region label for a latitude (Albanian — translated by the DOM translator). */
+export function regionLabel(latitude: number): string {
+  if (latitude >= 44) return "Veri";
+  if (latitude >= 41) return "Qendër";
+  return "Jug";
+}
 
 /**
  * Orientation correction factor from the roof azimuth in degrees.
@@ -45,7 +57,12 @@ export function azimuthLabel(azimuth: number): string {
     "Perëndim",
     "Veri-Perëndim",
   ];
-  return dirs[Math.round(((azimuth % 360) + 360) % 360 / 45) % 8];
+  return dirs[Math.round((((azimuth % 360) + 360) % 360) / 45) % 8];
+}
+
+export function azimuthShort(azimuth: number): string {
+  const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+  return dirs[Math.round((((azimuth % 360) + 360) % 360) / 45) % 8];
 }
 
 /**
@@ -78,7 +95,8 @@ export const PANEL_TIERS = [
 ] as const;
 
 export interface CalcOptions {
-  zone: ZoneKey;
+  /** Specific yield (kWh/kWp/year), from the location. */
+  specificYield: number;
   /** Roof azimuth in degrees (0° = North, 90° = East, 180° = South, 270° = West). */
   azimuth: number;
   battery: boolean;
@@ -105,9 +123,6 @@ export interface SolarResult {
   yieldPerKwp: number;
 }
 
-export const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
-
 /**
  * Estimate a photovoltaic system from the annual consumption and context.
  * All money values are in EUR, energy in kWh.
@@ -117,10 +132,9 @@ export function estimateSystem(
   property: PropertyKey,
   options: CalcOptions,
 ): SolarResult {
-  const zone = ZONES.find(z => z.key === options.zone) ?? ZONES[1];
   const profile = PROPERTY_TYPES.find(p => p.key === property) ?? PROPERTY_TYPES[0];
 
-  const yieldPerKwp = zone.yield * azimuthFactor(options.azimuth);
+  const yieldPerKwp = options.specificYield * azimuthFactor(options.azimuth);
   const consumption = Math.max(0, annualConsumptionKwh);
 
   const kwp = Math.min(

@@ -1,18 +1,13 @@
 import { useState } from "react";
 import { SiteLayout, PageHero } from "@/components/SiteLayout";
-import { CalcOptionsPanel } from "@/components/CalcOptions";
+import { OrientationCompass } from "@/components/OrientationCompass";
+import { useGeoZone } from "@/hooks/useGeoZone";
 import { asset } from "@/lib/asset";
-import { ENERGY_TARIFF, EXPORT_TARIFF, type CalcOptions } from "@/lib/solar";
 import { Calculator, SizingCalculator } from "./Home";
 
 export default function Calcolatore() {
-  const [options, setOptions] = useState<CalcOptions>({
-    zone: "center",
-    azimuth: 180,
-    battery: true,
-    energyTariff: ENERGY_TARIFF,
-    exportTariff: EXPORT_TARIFF,
-  });
+  const [azimuth, setAzimuth] = useState(180);
+  const geo = useGeoZone();
 
   return (
     <SiteLayout>
@@ -26,34 +21,29 @@ export default function Calcolatore() {
         <div className="calculator-backdrop" />
         <div className="container calculator-stack">
           <div className="calculator-block">
-            <span className="calc-subtitle">Konteksti i sistemit</span>
-            <CalcOptionsPanel value={options} onChange={setOptions} />
+            <span className="calc-subtitle">Nga fatura mujore</span>
+            <Calculator specificYield={geo.specificYield} azimuth={azimuth} />
           </div>
 
-          <div className="calculator-block">
-            <span className="calc-subtitle">Nga fatura mujore</span>
-            <Calculator options={options} />
+          <div className="calculator-block compass-block">
+            <span className="calc-subtitle">Orientimi i çatisë</span>
+            <OrientationCompass
+              value={azimuth}
+              onChange={setAzimuth}
+              geo={geo}
+            />
           </div>
 
           <div className="calculator-block">
             <span className="calc-subtitle">
               Nga konsumi & madhësia e shtëpisë
             </span>
-            <SizingCalculator options={options} />
+            <SizingCalculator
+              specificYield={geo.specificYield}
+              azimuth={azimuth}
+            />
           </div>
 
-          <div className="calculator-block calc-method">
-            <span className="calc-subtitle">Metodologjia</span>
-            <p>
-              Llogaritjet bazohen në mesatare italiane: rendiment 1.150–1.550
-              kWh/kWp në vit sipas zonës gjeografike, çmim energjie 0,20 €/kWh,
-              shitje e tepricës 0,10 €/kWh, degradim 0,5% në vit, jetëgjatësi 20
-              vjet dhe vetëkonsum 30–65% sipas llojit të objektit dhe pranisë së
-              baterisë. Kthimi i investimit përdor një çmim orientues prej 1.300
-              €/kWp. Të gjitha vlerat janë orientuese — oferta përfundimtare
-              përcaktohet nga kushtet reale të çatisë dhe instalimit.
-            </p>
-          </div>
         </div>
       </section>
     </SiteLayout>

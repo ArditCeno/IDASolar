@@ -1,24 +1,35 @@
 import { useEffect, useRef, useState } from "react";
-import { Sun } from "lucide-react";
-import { azimuthLabel } from "@/lib/solar";
+import { Compass as CompassIcon, Moon, Sun } from "lucide-react";
+import { azimuthFactor, azimuthLabel, azimuthShort } from "@/lib/solar";
+import type { GeoZone } from "@/hooks/useGeoZone";
 
+const C = 120;
 const TICKS = Array.from({ length: 72 }, (_, i) => i * 5);
-const CARDINALS: { key: string; label: string; x: number; y: number }[] = [
-  { key: "n", label: "N", x: 100, y: 20 },
-  { key: "e", label: "E", x: 182, y: 105 },
-  { key: "s", label: "S", x: 100, y: 192 },
-  { key: "w", label: "W", x: 18, y: 105 },
+const NUMBERS = [30, 60, 120, 150, 210, 240, 300, 330];
+const CARDINALS = [
+  { key: "n", label: "N", deg: 0 },
+  { key: "e", label: "E", deg: 90 },
+  { key: "s", label: "S", deg: 180 },
+  { key: "w", label: "W", deg: 270 },
 ];
+
+function polar(radius: number, deg: number) {
+  const rad = ((deg - 90) * Math.PI) / 180;
+  return { x: C + radius * Math.cos(rad), y: C + radius * Math.sin(rad) };
+}
 
 export function OrientationCompass({
   value,
   onChange,
+  geo,
 }: {
   value: number;
   onChange: (azimuth: number) => void;
+  geo: GeoZone;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
+  const [dark, setDark] = useState(false);
   const [sensorOn, setSensorOn] = useState(false);
   const [sensorError, setSensorError] = useState<string | null>(null);
 
@@ -28,8 +39,7 @@ export function OrientationCompass({
     const rect = el.getBoundingClientRect();
     const dx = clientX - (rect.left + rect.width / 2);
     const dy = clientY - (rect.top + rect.height / 2);
-    const angle = (Math.atan2(dx, -dy) * 180) / Math.PI;
-    return Math.round((angle + 360) % 360);
+    return Math.round(((Math.atan2(dx, -dy) * 180) / Math.PI + 360) % 360);
   };
 
   const onPointerDown = (event: React.PointerEvent) => {
@@ -38,8 +48,7 @@ export function OrientationCompass({
     onChange(angleFromPoint(event.clientX, event.clientY));
   };
   const onPointerMove = (event: React.PointerEvent) => {
-    if (!dragging) return;
-    onChange(angleFromPoint(event.clientX, event.clientY));
+    if (dragging) onChange(angleFromPoint(event.clientX, event.clientY));
   };
   const onPointerUp = () => setDragging(false);
 
@@ -99,73 +108,151 @@ export function OrientationCompass({
     }
   };
 
+  const efficiency = Math.round(azimuthFactor(value) * 100);
+
   return (
-    <div className="compass">
-      <div
-        className="compass-dial"
-        ref={ref}
-        role="slider"
-        tabIndex={0}
-        aria-label="Orientimi i çatisë"
-        aria-valuemin={0}
-        aria-valuemax={359}
-        aria-valuenow={value}
-        aria-valuetext={`${azimuthLabel(value)} ${value}°`}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
-        onKeyDown={onKeyDown}
-      >
-        <svg viewBox="0 0 200 200" aria-hidden="true">
-          <circle className="compass-ring" cx="100" cy="100" r="94" />
-          <circle className="compass-ring inner" cx="100" cy="100" r="70" />
-          <path
-            className="compass-sunpath"
-            d="M 100 6 A 94 94 0 0 1 194 100"
-            fill="none"
-          />
-          {TICKS.map(deg => {
-            const major = deg % 45 === 0;
-            return (
+    <div className={`compass${dark ? " compass--dark" : ""}`}>
+      <div className="compass-stage">
+        <button
+          type="button"
+          className="compass-theme"
+          onClick={() => setDark(d => !d)}
+          aria-label="Ndrysho pamjen e kompasit"
+        >
+          {dark ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
+
+        <div
+          className="compass-dial"
+          ref={ref}
+          role="slider"
+          tabIndex={0}
+          aria-label="Orientimi i çatisë"
+          aria-valuemin={0}
+          aria-valuemax={359}
+          aria-valuenow={value}
+          aria-valuetext={`${azimuthLabel(value)} ${value}°`}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          onKeyDown={onKeyDown}
+        >
+          <svg viewBox="0 0 240 240" aria-hidden="true">
+            <defs>
+              <radialGradient id="compassFace" cx="50%" cy="36%" r="72%">
+                <stop offset="0%" stopColor="var(--compass-grad-1)" />
+                <stop offset="100%" stopColor="var(--compass-grad-2)" />
+              </radialGradient>
+            </defs>
+
+            <circle className="compass-ring" cx={C} cy={C} r={112} />
+            <circle
+              className="compass-face"
+              cx={C}
+              cy={C}
+              r={104}
+              fill="url(#compassFace)"
+            />
+
+            {TICKS.map(deg => {
+              const major = deg % 30 === 0;
+              const from = polar(102, deg);
+              const to = polar(major ? 92 : 97, deg);
+              return (
+                <line
+                  key={deg}
+                  className={major ? "compass-tick major" : "compass-tick"}
+                  x1={from.x}
+                  y1={from.y}
+                  x2={to.x}
+                  y2={to.y}
+                />
+              );
+            })}
+
+            {NUMBERS.map(deg => {
+              const p = polar(84, deg);
+              return (
+                <text
+                  className="compass-num"
+                  key={deg}
+                  x={p.x}
+                  y={p.y}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                >
+                  {deg}
+                </text>
+              );
+            })}
+
+            {CARDINALS.map(c => {
+              const p = polar(84, c.deg);
+              return (
+                <text
+                  className={`compass-cardinal compass-${c.key}`}
+                  key={c.key}
+                  x={p.x}
+                  y={p.y}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                >
+                  {c.label}
+                </text>
+              );
+            })}
+
+            <g transform={`rotate(${value} ${C} ${C})`}>
               <line
-                key={deg}
-                className={major ? "compass-tick major" : "compass-tick"}
-                x1="100"
-                y1={major ? 6 : 9}
-                x2="100"
-                y2="16"
-                transform={`rotate(${deg} 100 100)`}
+                className="compass-pointer"
+                x1={C}
+                y1={62}
+                x2={C}
+                y2={22}
               />
-            );
-          })}
-          {CARDINALS.map(c => (
+              <polygon className="compass-arrow" points="120,14 113,30 127,30" />
+              <circle className="compass-dot" cx={C} cy={102} r={6} />
+            </g>
+
+            <circle className="compass-hub" cx={C} cy={C} r={46} />
             <text
-              key={c.key}
-              className={`compass-cardinal compass-${c.key}`}
-              x={c.x}
-              y={c.y}
+              className="compass-deg"
+              x={C}
+              y={116}
               textAnchor="middle"
+              dominantBaseline="central"
             >
-              {c.label}
+              {value}°
             </text>
-          ))}
-          <g transform={`rotate(${value} 100 100)`}>
-            <line className="compass-pointer" x1="100" y1="100" x2="100" y2="26" />
-            <polygon className="compass-arrow" points="100,18 93,34 107,34" />
-          </g>
-          <circle className="compass-hub" cx="100" cy="100" r="7" />
-        </svg>
-        <span className="compass-sun" aria-hidden="true">
-          <Sun size={15} />
-        </span>
+            <text
+              className="compass-dir"
+              x={C}
+              y={140}
+              textAnchor="middle"
+              dominantBaseline="central"
+            >
+              {azimuthLabel(value)}
+            </text>
+          </svg>
+        </div>
       </div>
 
       <div className="compass-side">
         <span className="compass-readout">
-          <b>{azimuthLabel(value)}</b>
-          <small>{value}°</small>
+          <b>{azimuthShort(value)}</b>
+          <small>{efficiency}% rendiment</small>
         </span>
+
+        <span className="compass-zone">
+          <CompassIcon size={14} />
+          {geo.status === "ok" && geo.region
+            ? `Zona: ${geo.region} · ${geo.specificYield} kWh/kWp`
+            : geo.status === "locating"
+              ? "Duke zbuluar zonën…"
+              : `Mesatare · ${geo.specificYield} kWh/kWp`}
+        </span>
+
         <button
           type="button"
           className={`compass-sensor${sensorOn ? " on" : ""}`}
