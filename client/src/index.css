@@ -316,14 +316,11 @@ a {
   animation: hero-scale 16s ease-out both;
 }
 .hero-overlay {
-  background:
-    linear-gradient(
-      90deg,
-      rgba(198, 240, 176, 0.95) 0%,
-      rgba(198, 240, 176, 0.74) 42%,
-      rgba(198, 240, 176, 0.24) 100%
-    ),
-    linear-gradient(0deg, rgba(247, 247, 245, 0.9) 0%, transparent 34%);
+  background: linear-gradient(
+    0deg,
+    rgba(247, 247, 245, 0.9) 0%,
+    transparent 34%
+  );
 }
 .hero-content {
   position: relative;
@@ -3495,13 +3492,11 @@ h2 {
     background-position: 61% center;
   }
   .hero-overlay {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(198, 240, 176, 0.92),
-        rgba(198, 240, 176, 0.5)
-      ),
-      linear-gradient(0deg, rgba(247, 247, 245, 0.9), transparent 48%);
+    background: linear-gradient(
+      0deg,
+      rgba(247, 247, 245, 0.9),
+      transparent 48%
+    );
   }
   .hero-copy {
     margin-top: -30px;
