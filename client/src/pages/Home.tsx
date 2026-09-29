@@ -164,7 +164,13 @@ const IDA_PROJECTS = [
 
 function Logo() {
   return (
-    <a className="brand" href="#top" aria-label="IDA SOLAR - në krye">
+    <a
+      className="brand"
+      href="https://www.instagram.com/idasolar.it/"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="IDA Solar su Instagram"
+    >
       <BrandLogo />
     </a>
   );
