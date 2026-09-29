@@ -42,9 +42,19 @@ import {
 import { toast } from "sonner";
 import { Link } from "wouter";
 import { BrandLogo } from "@/components/SiteLayout";
+import { CalcOptionsPanel } from "@/components/CalcOptions";
+import { CalcResult } from "@/components/CalcResult";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { LANGUAGES, type Lang } from "@/i18n/translations";
 import { asset } from "@/lib/asset";
+import {
+  clamp,
+  estimateSystem,
+  formatEur,
+  PROPERTY_TYPES,
+  type CalcOptions,
+  type PropertyKey,
+} from "@/lib/solar";
 
 const INSTAGRAM_IDA = "https://www.instagram.com/idasolar.it/";
 const INSTAGRAM_ASTRAX = "https://www.instagram.com/astraxsolutions/";
@@ -60,25 +70,12 @@ const GALLERY_IMAGES = Array.from(
     asset(`/images/gallery-${String(index + 1).padStart(2, "0")}.jpg`),
 );
 
-const PROPERTY_TYPES = [
-  { key: "home", label: "Shtëpi private", factor: 3.2, Icon: HomeIcon },
-  { key: "apartment", label: "Apartament", factor: 2.8, Icon: Building2 },
-  { key: "business", label: "Biznes / Zyrë", factor: 5, Icon: Briefcase },
-  { key: "industry", label: "Industri / Bujqësi", factor: 8, Icon: Factory },
-] as const;
-
-type PropertyKey = (typeof PROPERTY_TYPES)[number]["key"];
-
-const PANEL_TIERS = [
-  { maxKwp: 6, watt: 450, area: 1.95, name: "450 W All-black TOPCon" },
-  { maxKwp: 20, watt: 550, area: 2.4, name: "550 W Monokristal" },
-  {
-    maxKwp: Number.POSITIVE_INFINITY,
-    watt: 600,
-    area: 2.6,
-    name: "600 W Bifacial",
-  },
-] as const;
+const PROPERTY_ICONS: Record<PropertyKey, typeof HomeIcon> = {
+  home: HomeIcon,
+  apartment: Building2,
+  business: Briefcase,
+  industry: Factory,
+};
 
 const IDA_PRODUCTS = [
   {
@@ -163,16 +160,6 @@ const IDA_PROJECTS = [
       "Fotovoltaico + Accumulo + Inverter",
   },
 ] as const;
-
-const formatEur = (value: number, locale: string) =>
-  new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  }).format(value);
-
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
 
 function Logo() {
   return (
@@ -466,41 +453,15 @@ export function AppMockup() {
   );
 }
 
-export function Calculator() {
-  const [property, setProperty] = useState<"home" | "business">("home");
+export function Calculator({ options }: { options: CalcOptions }) {
+  const [property, setProperty] = useState<PropertyKey>("home");
   const [bill, setBill] = useState(80);
-  const [battery, setBattery] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const statusRef = useRef<HTMLDivElement>(null);
   const { locale } = useLanguage();
 
-  const result = useMemo(() => {
-    const baseKw = property === "home" ? bill / 34 : bill / 39;
-    const kw = clamp(Math.round(baseKw * 2) / 2, 3, 100);
-    const panelWatt = 450;
-    const panels = Math.ceil((kw * 1000) / panelWatt);
-    const annualSaving = bill * 12 * 0.78;
-    const twentyYearSaving = annualSaving * 20;
-    const roof = Math.ceil(kw * 6.2);
-    const batteryKwh = Math.max(5, Math.round((kw * 1.3) / 5) * 5);
-    return { kw, panels, annualSaving, twentyYearSaving, roof, batteryKwh };
-  }, [bill, property]);
-
-  const submitLead = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSubmitted(true);
-    toast.success("Kërkesa u regjistrua", {
-      description:
-        "Faleminderit! Ekipi i IDA SOLAR do të të kontaktojë së shpejti.",
-    });
-    requestAnimationFrame(() =>
-      statusRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      }),
-    );
-  };
+  const result = useMemo(
+    () => estimateSystem((bill * 12) / options.energyTariff, property, options),
+    [bill, property, options],
+  );
 
   return (
     <div className="calculator-shell">
@@ -527,30 +488,26 @@ export function Calculator() {
             <div className="calc-kicker">HAPI 01</div>
             <h3>Çfarë lloj objekti ke?</h3>
             <div
-              className="property-switch"
+              className="property-switch quad"
               role="group"
               aria-label="Zgjidh llojin e objektit"
             >
-              <button
-                type="button"
-                className={property === "home" ? "selected" : ""}
-                onClick={() => setProperty("home")}
-                aria-pressed={property === "home"}
-              >
-                <HomeIcon size={19} />
-                <span>Shtëpi private</span>
-                <Check size={17} />
-              </button>
-              <button
-                type="button"
-                className={property === "business" ? "selected" : ""}
-                onClick={() => setProperty("business")}
-                aria-pressed={property === "business"}
-              >
-                <PanelTop size={19} />
-                <span>Objekt biznesi</span>
-                <Check size={17} />
-              </button>
+              {PROPERTY_TYPES.map(entry => {
+                const Icon = PROPERTY_ICONS[entry.key];
+                return (
+                  <button
+                    key={entry.key}
+                    type="button"
+                    className={property === entry.key ? "selected" : ""}
+                    onClick={() => setProperty(entry.key)}
+                    aria-pressed={property === entry.key}
+                  >
+                    <Icon size={19} />
+                    <span>{entry.label}</span>
+                    <Check size={17} />
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -586,187 +543,28 @@ export function Calculator() {
             </div>
           </div>
 
-          <div className="battery-toggle-row">
-            <div className="battery-mini-icon">
-              <BatteryCharging size={19} />
-            </div>
-            <div>
-              <strong>Shto bateri backup</strong>
-              <span>Ruaj energjinë dhe mbrohu nga ndërprerjet.</span>
-            </div>
-            <button
-              type="button"
-              className={`toggle ${battery ? "on" : ""}`}
-              onClick={() => setBattery(!battery)}
-              aria-pressed={battery}
-              aria-label="Shto bateri backup"
-            >
-              <span />
-            </button>
-          </div>
         </div>
 
-        <div className="calculator-result">
-          <div className="result-topline">
-            <span>VLERËSIMI YT</span>
-            <span className="result-live">
-              <span /> Live estimate
-            </span>
-          </div>
-          <h3>Sistemi i rekomanduar</h3>
-          <div className="kw-result">
-            <strong>{result.kw}</strong>
-            <span>kWp</span>
-          </div>
-          <div className="result-meta">
-            <span>
-              <b>{result.panels}</b> panele
-            </span>
-            <span>
-              <b>~{result.roof} m²</b> çati
-            </span>
-            {battery && (
-              <span>
-                <b>{result.batteryKwh} kWh</b> bateri
-              </span>
-            )}
-          </div>
-          <div className="result-chart" aria-hidden="true">
-            <div className="chart-labels">
-              <span>Produksion vjetor</span>
-              <b>{Math.round(result.kw * 1.42).toLocaleString(locale)} MWh</b>
-            </div>
-            <div className="bar-track">
-              <span
-                style={{ width: `${Math.min(92, 32 + result.kw * 0.7)}%` }}
-              />
-            </div>
-            <div className="chart-years">
-              <span>2026</span>
-              <span>2036</span>
-              <span>2046</span>
-            </div>
-          </div>
-          <div className="saving-callout">
-            <span className="saving-icon">
-              <Zap size={16} />
-            </span>
-            <div>
-              <small>Kursimi i mundshëm në 20 vjet</small>
-              <strong>{formatEur(result.twentyYearSaving, locale)}</strong>
-            </div>
-          </div>
-          <p className="result-disclaimer">
-            Vlerësim orientues. Oferta finale bazohet në çatinë, konsumin dhe
-            kushtet reale të instalimit.
-          </p>
-          {!showForm && !submitted ? (
-            <button
-              className="button button-primary result-cta"
-              type="button"
-              onClick={() => setShowForm(true)}
-            >
-              Merr ofertën e detajuar <ArrowRight size={17} />
-            </button>
-          ) : null}
-          {showForm && !submitted ? (
-            <form className="mini-lead-form" onSubmit={submitLead}>
-              <input
-                required
-                name="name"
-                autoComplete="name"
-                placeholder="Emri dhe mbiemri"
-                aria-label="Emri dhe mbiemri"
-              />
-              <input
-                required
-                type="tel"
-                name="phone"
-                autoComplete="tel"
-                inputMode="tel"
-                placeholder="Numri i telefonit"
-                aria-label="Numri i telefonit"
-              />
-              <button className="button button-primary" type="submit">
-                Dërgo kërkesën <ArrowRight size={16} />
-              </button>
-            </form>
-          ) : null}
-          {submitted ? (
-            <div
-              className="submitted-state"
-              ref={statusRef}
-              role="status"
-              aria-live="polite"
-            >
-              <Check size={22} />
-              <div>
-                <strong>U krye.</strong>
-                <span>Do të të kontaktojmë për analizën teknike.</span>
-              </div>
-            </div>
-          ) : null}
-        </div>
+        <CalcResult result={result} />
       </div>
     </div>
   );
 }
 
-export function SizingCalculator() {
+export function SizingCalculator({ options }: { options: CalcOptions }) {
   const [property, setProperty] = useState<PropertyKey>("home");
   const [area, setArea] = useState(120);
   const [monthlyKwh, setMonthlyKwh] = useState(400);
-  const [battery, setBattery] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const statusRef = useRef<HTMLDivElement>(null);
   const { locale } = useLanguage();
 
-  const result = useMemo(() => {
-    const dailyKwh = monthlyKwh / 30;
-    const kwp = clamp(Math.round((dailyKwh / 3.9) * 2) / 2, 1, 250);
-    const tier =
-      PANEL_TIERS.find(entry => kwp <= entry.maxKwp) ??
-      PANEL_TIERS[PANEL_TIERS.length - 1];
-    const panels = Math.ceil((kwp * 1000) / tier.watt);
-    const roof = Math.ceil(panels * tier.area);
-    const batteryKwh = battery
-      ? Math.min(80, Math.max(5, Math.round((kwp * 1.2) / 5) * 5))
-      : 0;
-    const annualKwh = kwp * 1400;
-    const annualSaving = annualKwh * 18;
-    const profile =
-      PROPERTY_TYPES.find(entry => entry.key === property) ?? PROPERTY_TYPES[0];
-    const typicalKwh = Math.round(area * profile.factor);
-    const roofTight = roof > area * 1.15;
-    return {
-      kwp,
-      panels,
-      tier,
-      roof,
-      batteryKwh,
-      annualKwh,
-      annualSaving,
-      typicalKwh,
-      roofTight,
-      profile,
-    };
-  }, [monthlyKwh, area, property, battery]);
+  const result = useMemo(
+    () => estimateSystem(monthlyKwh * 12, property, options),
+    [monthlyKwh, property, options],
+  );
 
-  const submitLead = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSubmitted(true);
-    toast.success("Kërkesa u regjistrua", {
-      description:
-        "Faleminderit! Ekipi i IDA SOLAR do të të kontaktojë së shpejti.",
-    });
-    requestAnimationFrame(() =>
-      statusRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      }),
-    );
-  };
+  const profile =
+    PROPERTY_TYPES.find(entry => entry.key === property) ?? PROPERTY_TYPES[0];
+  const typicalKwh = Math.round(area * profile.kwhPerM2);
 
   return (
     <div className="calculator-shell">
@@ -797,19 +595,22 @@ export function SizingCalculator() {
               role="group"
               aria-label="Zgjidh llojin e objektit"
             >
-              {PROPERTY_TYPES.map(entry => (
-                <button
-                  key={entry.key}
-                  type="button"
-                  className={property === entry.key ? "selected" : ""}
-                  onClick={() => setProperty(entry.key)}
-                  aria-pressed={property === entry.key}
-                >
-                  <entry.Icon size={19} />
-                  <span>{entry.label}</span>
-                  <Check size={17} />
-                </button>
-              ))}
+              {PROPERTY_TYPES.map(entry => {
+                const Icon = PROPERTY_ICONS[entry.key];
+                return (
+                  <button
+                    key={entry.key}
+                    type="button"
+                    className={property === entry.key ? "selected" : ""}
+                    onClick={() => setProperty(entry.key)}
+                    aria-pressed={property === entry.key}
+                  >
+                    <Icon size={19} />
+                    <span>{entry.label}</span>
+                    <Check size={17} />
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -904,141 +705,14 @@ export function SizingCalculator() {
             </div>
             <div className="calc-hint">
               <CloudSun size={15} /> Konsumi tipik për {area} m²{" "}
-              {result.profile.label.toLowerCase()}: ~
-              {result.typicalKwh.toLocaleString(locale)} kWh në muaj.
+              {profile.label.toLowerCase()}: ~
+              {typicalKwh.toLocaleString(locale)} kWh në muaj.
             </div>
           </div>
 
-          <div className="battery-toggle-row">
-            <div className="battery-mini-icon">
-              <BatteryCharging size={19} />
-            </div>
-            <div>
-              <strong>Shto bateri backup</strong>
-              <span>Ruaj energjinë dhe mbrohu nga ndërprerjet.</span>
-            </div>
-            <button
-              type="button"
-              className={`toggle ${battery ? "on" : ""}`}
-              onClick={() => setBattery(!battery)}
-              aria-pressed={battery}
-              aria-label="Shto bateri backup"
-            >
-              <span />
-            </button>
-          </div>
         </div>
 
-        <div className="calculator-result">
-          <div className="result-topline">
-            <span>DIMENSIONIMI YT</span>
-            <span className="result-live">
-              <span /> Live estimate
-            </span>
-          </div>
-          <h3>Lloji & madhësia e sistemit</h3>
-          <div className="kw-result">
-            <strong>{result.kwp}</strong>
-            <span>kWp</span>
-          </div>
-          <div className="panel-type-badge">
-            <PanelTop size={15} /> {result.tier.name}
-          </div>
-          <div className="result-meta">
-            <span>
-              <b>{result.panels}</b> panele
-            </span>
-            <span>
-              <b>~{result.roof} m²</b> çati
-            </span>
-            {battery && (
-              <span>
-                <b>{result.batteryKwh} kWh</b> bateri
-              </span>
-            )}
-          </div>
-          <div className="result-chart" aria-hidden="true">
-            <div className="chart-labels">
-              <span>Produksion vjetor</span>
-              <b>{Math.round(result.annualKwh).toLocaleString(locale)} kWh</b>
-            </div>
-            <div className="bar-track">
-              <span
-                style={{ width: `${Math.min(92, 32 + result.kwp * 0.7)}%` }}
-              />
-            </div>
-            <div className="chart-years">
-              <span>2026</span>
-              <span>2036</span>
-              <span>2046</span>
-            </div>
-          </div>
-          <div className="saving-callout">
-            <span className="saving-icon">
-              <Zap size={16} />
-            </span>
-            <div>
-              <small>Kursimi i mundshëm në 20 vjet</small>
-              <strong>{formatEur(result.annualSaving * 20, locale)}</strong>
-            </div>
-          </div>
-          {result.roofTight ? (
-            <p className="calc-warning">
-              Çatia e nevojshme mund të tejkalojë sipërfaqen e shtëpisë —
-              konsulto një ekspert për vendosjen.
-            </p>
-          ) : null}
-          <p className="result-disclaimer">
-            Vlerësim orientues bazuar në konsumin mujor dhe rrezatimin mesatar.
-            Oferta finale bazohet në çatinë dhe kushtet reale.
-          </p>
-          {!showForm && !submitted ? (
-            <button
-              className="button button-primary result-cta"
-              type="button"
-              onClick={() => setShowForm(true)}
-            >
-              Merr ofertën e detajuar <ArrowRight size={17} />
-            </button>
-          ) : null}
-          {showForm && !submitted ? (
-            <form className="mini-lead-form" onSubmit={submitLead}>
-              <input
-                required
-                name="name"
-                autoComplete="name"
-                placeholder="Emri dhe mbiemri"
-                aria-label="Emri dhe mbiemri"
-              />
-              <input
-                required
-                type="tel"
-                name="phone"
-                autoComplete="tel"
-                inputMode="tel"
-                placeholder="Numri i telefonit"
-                aria-label="Numri i telefonit"
-              />
-              <button className="button button-primary" type="submit">
-                Dërgo kërkesën <ArrowRight size={16} />
-              </button>
-            </form>
-          ) : null}
-          {submitted ? (
-            <div
-              className="submitted-state"
-              ref={statusRef}
-              role="status"
-              aria-live="polite"
-            >
-              <Check size={22} />
-              <div>
-                <strong>U krye.</strong>
-                <span>Do të të kontaktojmë për analizën teknike.</span>
-              </div>
-            </div>
-          ) : null}
-        </div>
+        <CalcResult result={result} />
       </div>
     </div>
   );
@@ -1422,9 +1096,9 @@ export default function Home() {
                 Panelet all-black integrohen me arkitekturën e shtëpisë. Dizajni
                 i pastër nuk tërheq vëmendje — përveçse kur sheh faturën.
               </p>
-              <a className="text-link light-link" href="#calculator">
+              <Link className="text-link light-link" href="/calcolatore">
                 Shiko çfarë të përshtatet <ArrowRight size={16} />
-              </a>
+              </Link>
             </div>
             <div className="panel-visual reveal-up delay-1">
               <div className="panel-crop">
