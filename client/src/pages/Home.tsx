@@ -1015,7 +1015,7 @@ export default function Home() {
                 <ArrowDown size={15} /> <span>Eksploro sistemin</span>
               </a>
               <div className="hero-note">
-                <strong>IDA / 01</strong>
+                <strong>IDA </strong>
                 <span>
                   Sisteme që punojnë
                   <br />
