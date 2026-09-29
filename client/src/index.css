@@ -99,6 +99,40 @@ a {
   overflow-x: clip;
 }
 
+/* --- UX foundations: cleaner taps, visible focus, anchor offset --- */
+a,
+button,
+[role="button"],
+input,
+textarea,
+select,
+label,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+a,
+button,
+[role="button"] {
+  touch-action: manipulation;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+section[id],
+[id="top"] {
+  scroll-margin-top: 100px;
+}
+
 .site-header {
   position: fixed;
   inset: 0 0 auto;
@@ -1445,7 +1479,7 @@ h2 {
 
 .contatti-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: start;
   gap: clamp(30px, 5vw, 72px);
 }
@@ -2940,6 +2974,7 @@ h2 {
   background: var(--brand-soft);
   color: var(--ink);
   border-top: 1px solid rgba(23, 26, 32, 0.14);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .footer-contactbar {
   display: flex;
@@ -3428,12 +3463,75 @@ h2 {
   }
 }
 
+/* Tablet & below: burger menu (prevents header overflow), iOS zoom fix, touch targets */
+@media (max-width: 900px) {
+  .header-cta {
+    display: none;
+  }
+  .menu-button {
+    display: block;
+  }
+  .desktop-nav {
+    position: fixed;
+    inset: 82px 0 auto;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    padding: 16px 18px 21px;
+    background: rgba(247, 247, 245, 0.98);
+    color: var(--ink);
+    font-size: 11px;
+    box-shadow: 0 15px 26px rgba(23, 26, 32, 0.1);
+  }
+  .desktop-nav.nav-open {
+    display: flex;
+  }
+  .desktop-nav a {
+    padding: 15px 5px;
+    border-bottom: 1px solid #e1e2dc;
+    color: var(--ink);
+  }
+  .nav-mobile-cta {
+    display: inline-flex !important;
+    margin-top: 17px;
+  }
+  .mini-lead-form input,
+  .consultation-modal input,
+  .consultation-modal select,
+  .contatti-form input,
+  .contatti-form textarea,
+  .calc-number input,
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+  .footer-social a {
+    width: 44px;
+    height: 44px;
+  }
+  .footer-lang,
+  .footer-lang-option {
+    min-height: 44px;
+  }
+}
+
 @media (max-width: 767px) {
   .app-grid {
     gap: 40px;
   }
   .app-scene {
     --app-zoom: 0.42;
+  }
+  .contatti-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+  .contatti-info,
+  .contatti-form-wrap {
+    min-width: 0;
   }
 }
 
@@ -4040,6 +4138,24 @@ h2 {
     width: clamp(100px, 28vw, 140px);
   }
   .product-card p.muted {
+    display: none;
+  }
+}
+
+/* Short landscape phones: keep the hero readable and uncluttered */
+@media (max-height: 560px) and (orientation: landscape) {
+  .hero-content {
+    padding-top: 20px;
+    padding-bottom: 104px;
+  }
+  .hero-copy h1 {
+    margin: 10px 0 10px;
+    font-size: clamp(30px, 5vw, 52px);
+  }
+  .hero-copy p {
+    margin-bottom: 16px;
+  }
+  .hero-foot {
     display: none;
   }
 }
