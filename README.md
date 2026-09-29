@@ -24,7 +24,24 @@ energy storage systems for homes, businesses and infrastructure.
 
 ---
 
-##  Overview
+## 📑 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Pages & Routes](#-pages--routes)
+- [Solar Sizing Calculator](#-solar-sizing-calculator)
+- [Internationalization](#-internationalization)
+- [Getting Started](#-getting-started)
+- [Build & Deploy](#-build--deploy)
+- [Screenshots](#-screenshots)
+- [Contact](#-contact)
+- [License](#-license)
+
+---
+
+## 📖 Overview
 
 A fast, multilingual marketing website built with **React + Vite** and a
 custom, brand-driven design system. It showcases IDA Solar's product lines,
@@ -36,26 +53,30 @@ GitHub Pages** on every push to `main`.
 
 ---
 
-##  Features
+## ✨ Features
 
--  **6 languages** — Italian (default), English, Spanish, French, German and
+- 🌍 **6 languages** — Italian (default), English, Spanish, French, German and
   Albanian, switchable on the fly with `localStorage` persistence.
--  **Interactive sizing calculator** — estimate a system from either the
-  monthly bill or the household consumption & size.
--  **Product & project catalogs** — expandable cards, image galleries and
+- 🧮 **Accurate sizing calculator** — estimate a system from the monthly bill
+  or the household consumption & size, with savings, payback and CO₂.
+- 🧭 **Interactive orientation compass** — set the roof direction by dragging,
+  with the keyboard, or by following the **phone's compass sensor**.
+- 📍 **Automatic zone detection** — the solar yield is derived from the
+  visitor's location (no manual region picker).
+- 🗂️ **Product & project catalogs** — expandable cards, image galleries and
   scroll-reveal animations.
--  **Animated app mockup** — a responsive phone preview that scales cleanly
+- 📱 **Animated app mockup** — a responsive phone preview that scales cleanly
   from desktop down to mobile.
--  **Adaptive glass header** — automatically switches contrast based on the
+- 🎨 **Adaptive glass header** — automatically switches contrast based on the
   hero image luminance.
--  **Consultation request modal** — validated contact form with toast
+- 🧾 **Consultation request modal** — validated contact form with toast
   feedback.
--  **Instant contact CTAs** — WhatsApp, phone and Instagram.
--  **Static & fast** — prerendered build, no runtime backend required.
+- 📞 **Instant contact CTAs** — WhatsApp, phone and Instagram.
+- ⚡ **Static & fast** — prerendered build, no runtime backend required.
 
 ---
 
-##  Tech Stack
+## 🧱 Tech Stack
 
 | Layer | Technology |
 | --- | --- |
@@ -67,13 +88,14 @@ GitHub Pages** on every push to `main`.
 | **Motion & charts** | Framer Motion · Recharts |
 | **Notifications** | Sonner |
 | **i18n** | Custom dictionary + DOM translator (no heavy dependency) |
+| **Sizing engine** | Pure TypeScript model in `client/src/lib/solar.ts` |
 | **Server (prod)** | Node.js + Express (serves the static build) |
 | **Tooling** | pnpm · Prettier · tsc · Vitest |
 | **Deploy** | GitHub Actions → GitHub Pages |
 
 ---
 
-##  Project Structure
+## 📁 Project Structure
 
 ```
 IDASolar/
@@ -82,23 +104,25 @@ IDASolar/
 │  │  ├─ images/               # Site imagery (products, projects, heroes)
 │  │  └─ fonts/                # Self-hosted webfonts
 │  └─ src/
-│     ├─ components/           # Layout, shared UI, BatteryGrid, …
-│     ├─ pages/                # One file per route
+│     ├─ components/           # SiteLayout, OrientationCompass, CalcResult,
+│     │                        # CalcExtras, BatteryGrid, …
+│     ├─ pages/                # Home · Moduli · Inverter · Accumulo · App ·
+│     │                        # Calcolatore · Progetti · Contatti
+│     ├─ hooks/                # useGeoZone (GPS → zone), useMobile, …
 │     ├─ i18n/                 # Dictionary, language context, DOM translator
-│     ├─ lib/                  # Helpers (base-path aware asset(), utils)
+│     ├─ lib/                  # solar.ts (sizing engine), asset(), utils
 │     ├─ contexts/             # Theme context
-│     ├─ hooks/                # Reusable hooks
 │     ├─ App.tsx               # Routes
 │     └─ index.css             # Design system & component styles
 ├─ server/                     # Express server (static serving in production)
 ├─ shared/                     # Constants shared between client & server
 ├─ docs/screenshots/           # README screenshots
-└─ .github/workflows/deploy.yml# CI/CD → GitHub Pages
+└─ .github/workflows/deploy.yml # CI/CD → GitHub Pages
 ```
 
 ---
 
-##  Pages & Routes
+## 🗺️ Pages & Routes
 
 | Route | Page |
 | --- | --- |
@@ -113,6 +137,52 @@ IDASolar/
 
 > Routes use **hash navigation** (e.g. `/#/app`) so deep links work on GitHub
 > Pages without server-side rewrites.
+
+---
+
+## 🧮 Solar Sizing Calculator
+
+`/calcolatore` hosts a real-time sizing engine that turns the customer's own
+numbers into a concrete system recommendation.
+
+**Two ways to start**
+
+| Mode | You provide | The engine computes |
+| --- | --- | --- |
+| **From the monthly bill** | Average monthly electricity bill (€) | Consumption → recommended system |
+| **From consumption & size** | Monthly consumption (kWh) and floor area (m²) | Recommended size + typical-usage hint |
+
+Each calculator carries its own **property type**, **energy-price slider** and
+**backup-battery toggle**, so results update instantly.
+
+**🧭 Interactive orientation compass** — set the roof direction on an iOS-style
+compass: drag the needle, use the arrow keys, or tap **“Use the phone compass”**
+to follow the device's real heading. A light/dark toggle and a live efficiency
+read-out are included.
+
+**📍 Automatic zone detection** — the specific yield is derived from the
+visitor's latitude (≈1,100 kWh/kWp in the North → ≈1,550 kWh/kWp in the South),
+falling back to the Italian average when location is unavailable.
+
+**What you get** — `kWp` · recommended panel · panel count · roof area ·
+battery size · annual production · self-consumption · annual savings ·
+20-year savings · **payback time** · **CO₂ avoided**.
+
+**Assumptions** — editable in
+[`client/src/lib/solar.ts`](./client/src/lib/solar.ts):
+
+| Parameter | Value |
+| --- | --- |
+| Retail electricity price | 0.20 €/kWh |
+| Surplus export price | 0.10 €/kWh |
+| System cost | 1,300 €/kWp |
+| Panel degradation | 0.5 %/year |
+| Analysis horizon | 20 years |
+| Self-consumption | 30–85 % (by property type & battery) |
+| Specific yield | 1,050–1,600 kWh/kWp (by location & orientation) |
+
+> All figures are indicative — the final offer depends on the real roof and
+> installation conditions.
 
 ---
 
@@ -142,7 +212,7 @@ follows the selected language.
 # 1. Install dependencies
 pnpm install
 
-# 2. Start the dev server (http://localhost:3000)
+# 2. Start the dev server (http://localhost:3000/IDASolar/)
 pnpm dev
 ```
 
@@ -159,7 +229,7 @@ pnpm dev
 
 ---
 
-##  Build & Deploy
+## 📦 Build & Deploy
 
 The project is configured with `base: "/IDASolar/"` and deployed to **GitHub
 Pages** via the workflow in `.github/workflows/deploy.yml`:
@@ -175,7 +245,7 @@ in sync automatically.
 
 ---
 
-##  Screenshots
+## 📸 Screenshots
 
 <table>
   <tr>
@@ -192,27 +262,28 @@ in sync automatically.
   </tr>
   <tr>
     <td width="50%"><img src="./docs/screenshots/app.jpg" alt="Mobile app" /></td>
+    <td width="50%"><img src="./docs/screenshots/home-mobile.jpg" alt="Home — mobile" /></td>
   </tr>
 </table>
 
 ---
 
-##  Contact
+## 📬 Contact
 
 | | |
 | --- | --- |
 | 🌐 **Website** | [arditceno.github.io/IDASolar](https://arditceno.github.io/IDASolar/) |
-| ✉️ **Email** | [info@idasolar.it](mailto:info@idasolar.it) [astraxsolutions@gmail.com](mailto:astraxsolutions@gmail.com)|
+| ✉️ **Email** | [info@idasolar.it](mailto:info@idasolar.it) · [astraxsolutions@gmail.com](mailto:astraxsolutions@gmail.com) |
 | ☎️ **Phone / WhatsApp** | [+39 346 353 0429](https://wa.me/393463530429) |
 | 📍 **Address** | Via Milano, 8 — 20816 Ceriano Laghetto (MB), Italy |
 | 📷 **AstraX Solutions** | [@astraxsolutions](https://www.instagram.com/astraxsolutions/) |
 
 ---
 
-##  License
+## 📄 License
 
 Released under the **MIT License** — see [LICENSE](./LICENSE) for details.
 
 <div align="center">
-  <sub>Built by <a href="https://www.linkedin.com/in/ardit-ceno-a674b5307/"> Ardit Ceno & <a href="https://www.instagram.com/astraxsolutions/">AstraX Solutions</a></sub>
+  <sub>Built by <a href="https://www.linkedin.com/in/ardit-ceno-a674b5307/">Ardit Ceno</a> &amp; <a href="https://www.instagram.com/astraxsolutions/">AstraX Solutions</a></sub>
 </div>
